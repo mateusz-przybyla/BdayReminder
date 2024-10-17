@@ -1,2 +1,2 @@
-# b-day-reminder
-A web app using React
+# bday-reminder
+[in progress] A web application to store your birthday dates [React.js]
