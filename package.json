@@ -1,0 +1,17 @@
+{
+  "name": "bday-reminder",
+  "version": "1.0.0",
+  "description": "A web application to store your birthday dates",
+  "main": "server/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\" -k",
+    "client": "cd client && npm run start",
+    "server": "cd server && npm run dev"
+  },
+  "author": "Mateusz Przybyla",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
