@@ -2,7 +2,7 @@
   "name": "bday-reminder_server",
   "version": "1.0.0",
   "description": "The server for the bday-reminder app",
-  "main": "app.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node app.js",
@@ -11,7 +11,9 @@
   "author": "Mateusz Przybyla",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.1",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.7"
   }
 }
