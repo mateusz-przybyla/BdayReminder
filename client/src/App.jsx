@@ -1,11 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import axios from "axios";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [data, setData] = useState([]);
 
+  const fetchAPI = async () => {
+    const response = await axios.get("http://localhost:8080/api/data");
+    setData(response.data.fruits);
+    console.log(response.data.fruits);
+  };
+
+  useEffect(() => {
+    fetchAPI();
+  }, []);
+  /*
+  useEffect(() => {
+    fetch("/api/data")
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+*/
   return (
     <>
       <div>
@@ -28,8 +47,17 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <form action="http://localhost:8080/api/data" method="post">
+        <button type="submit">Connected?</button>
+      </form>
+      <hr />
+      {data.map((fruit, index) => (
+        <div key={index}>
+          <p>{fruit}</p>
+        </div>
+      ))}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
