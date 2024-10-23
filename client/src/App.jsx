@@ -7,8 +7,6 @@ import "./App.css";
 //import { getList, setItem } from "./services/list";
 
 function App() {
-  //const [count, setCount] = useState(0);
-
   const [itemInput, setItemInput] = useState("");
   const [data, setData] = useState([]);
 
@@ -48,6 +46,18 @@ function App() {
     }
   };
 
+  const handleDelete = async (index) => {
+    console.log("Delete");
+    console.log(index);
+    const id = index;
+
+    try {
+      await axios.delete(`http://localhost:8080/api/data/${id}`);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <>
       <h1>Birthdays:</h1>
@@ -56,8 +66,10 @@ function App() {
 
       <h2>List:</h2>
       {data.map((item, index) => (
-        <div key={index}>
-          <p>{item.person}</p>
+        <div key={index} onClick={() => handleDelete(item.id)}>
+          <p>
+            {item.id},{item.person}
+          </p>
         </div>
       ))}
 

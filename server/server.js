@@ -27,6 +27,20 @@ app.post("/api/data", cors(corsOptions), (req, res) => {
   birthdays.push(newPerson);
 });
 
+app.delete("/api/data/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const searchIndex = birthdays.findIndex((birthday) => birthday.id === id);
+
+  if (searchIndex > -1) {
+    birthdays.splice(searchIndex, 1);
+    res.sendStatus(200);
+  } else {
+    res.status(404).json({
+      error: `Person with id: ${id} not found.`,
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
