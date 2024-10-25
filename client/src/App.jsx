@@ -3,6 +3,7 @@ import axios from "axios";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import Birthday from "./components/Birthday";
 
 //import { getList, setItem } from "./services/list";
 
@@ -46,10 +47,9 @@ function App() {
     }
   };
 
-  const handleDelete = async (index) => {
+  const deleteBirthday = async (id) => {
     console.log("Delete");
-    console.log(index);
-    const id = index;
+    console.log(id);
 
     try {
       await axios.delete(`http://localhost:8080/api/data/${id}`);
@@ -65,13 +65,16 @@ function App() {
       <hr />
 
       <h2>List:</h2>
-      {data.map((item, index) => (
-        <div key={index} onClick={() => handleDelete(item.id)}>
-          <p>
-            {item.id},{item.person}
-          </p>
-        </div>
-      ))}
+      {data.map((bdayItem, index) => {
+        return (
+          <Birthday
+            key={index}
+            id={bdayItem.id}
+            person={bdayItem.person}
+            onDelete={deleteBirthday}
+          />
+        );
+      })}
 
       <form onSubmit={handleSubmit}>
         <input
