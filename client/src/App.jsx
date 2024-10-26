@@ -4,11 +4,11 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import Birthday from "./components/Birthday";
+import CreateArea from "./components/CreateArea";
 
 //import { getList, setItem } from "./services/list";
 
 function App() {
-  const [itemInput, setItemInput] = useState("");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -24,28 +24,6 @@ function App() {
     };
     fetchAPI();
   }, [data]);
-
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    setItemInput(event.target.value);
-  };
-
-  //async function handleSubmit(event) { //standardowa funkcja
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const userData = {
-      person: itemInput,
-    };
-
-    setItemInput("");
-
-    try {
-      await axios.post("http://localhost:8080/api/data", userData);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
 
   const deleteBirthday = async (id) => {
     console.log("Delete");
@@ -76,15 +54,7 @@ function App() {
         );
       })}
 
-      <form onSubmit={handleSubmit}>
-        <input
-          onChange={handleChange}
-          type="text"
-          value={itemInput}
-          placeholder="new"
-        />
-        <button type="submit">Add</button>
-      </form>
+      <CreateArea />
     </>
   );
 }
