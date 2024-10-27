@@ -5,6 +5,7 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import Birthday from "./components/Birthday";
 import CreateArea from "./components/CreateArea";
+import Header from "./components/Header";
 
 //import { getList, setItem } from "./services/list";
 
@@ -38,21 +39,23 @@ function App() {
 
   return (
     <>
-      <h1>Birthdays:</h1>
-
-      <hr />
+      <Header />
 
       <h2>List:</h2>
-      {data.map((bdayItem, index) => {
-        return (
-          <Birthday
-            key={index}
-            id={bdayItem.id}
-            person={bdayItem.person}
-            onDelete={deleteBirthday}
-          />
-        );
-      })}
+      {data.length > 0 ? (
+        data.map((bdayItem, index) => {
+          return (
+            <Birthday
+              key={index}
+              id={bdayItem.id}
+              person={bdayItem.person}
+              onDelete={deleteBirthday}
+            />
+          );
+        })
+      ) : (
+        <h2>No results</h2>
+      )}
 
       <CreateArea />
     </>
