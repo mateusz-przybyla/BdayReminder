@@ -3,11 +3,12 @@ import axios from "axios";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import Birthday from "./components/Birthday";
+import CreateArea from "./components/CreateArea";
 
 //import { getList, setItem } from "./services/list";
 
 function App() {
-  const [itemInput, setItemInput] = useState("");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -24,32 +25,9 @@ function App() {
     fetchAPI();
   }, [data]);
 
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    setItemInput(event.target.value);
-  };
-
-  //async function handleSubmit(event) { //standardowa funkcja
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const userData = {
-      person: itemInput,
-    };
-
-    setItemInput("");
-
-    try {
-      await axios.post("http://localhost:8080/api/data", userData);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  const handleDelete = async (index) => {
+  const deleteBirthday = async (id) => {
     console.log("Delete");
-    console.log(index);
-    const id = index;
+    console.log(id);
 
     try {
       await axios.delete(`http://localhost:8080/api/data/${id}`);
@@ -65,23 +43,18 @@ function App() {
       <hr />
 
       <h2>List:</h2>
-      {data.map((item, index) => (
-        <div key={index} onClick={() => handleDelete(item.id)}>
-          <p>
-            {item.id},{item.person}
-          </p>
-        </div>
-      ))}
+      {data.map((bdayItem, index) => {
+        return (
+          <Birthday
+            key={index}
+            id={bdayItem.id}
+            person={bdayItem.person}
+            onDelete={deleteBirthday}
+          />
+        );
+      })}
 
-      <form onSubmit={handleSubmit}>
-        <input
-          onChange={handleChange}
-          type="text"
-          value={itemInput}
-          placeholder="new"
-        />
-        <button type="submit">Add</button>
-      </form>
+      <CreateArea />
     </>
   );
 }
