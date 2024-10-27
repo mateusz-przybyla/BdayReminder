@@ -6,6 +6,7 @@ import "./App.css";
 import Birthday from "./components/Birthday";
 import CreateArea from "./components/CreateArea";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 //import { getList, setItem } from "./services/list";
 
@@ -41,23 +42,27 @@ function App() {
     <>
       <Header />
 
-      <h2>List:</h2>
-      {data.length > 0 ? (
-        data.map((bdayItem, index) => {
-          return (
-            <Birthday
-              key={index}
-              id={bdayItem.id}
-              person={bdayItem.person}
-              onDelete={deleteBirthday}
-            />
-          );
-        })
-      ) : (
-        <h2>No results</h2>
-      )}
+      <div className="main">
+        <h2>List:</h2>
+        {data.length > 0 ? (
+          data.map((bdayItem, index) => {
+            return (
+              <Birthday
+                key={index}
+                id={bdayItem.id}
+                person={bdayItem.person}
+                onDelete={deleteBirthday}
+              />
+            );
+          })
+        ) : (
+          <h2>No results</h2>
+        )}
 
-      <CreateArea />
+        <CreateArea />
+      </div>
+
+      <Footer />
     </>
   );
 }
