@@ -6,11 +6,19 @@
 
 html {
   font-family: "Montserrat", sans-serif;
+  height: 100%;
 }
 
 body {
   background: #eee;
   padding: 0 16px;
+  min-height: 100%;
+  position: relative;
+}
+
+.main {
+  padding-top: 25px;
+  padding-bottom: 100px;
 }
 
 header {
@@ -24,4 +32,18 @@ header h1 {
   color: #fff;
   font-family: "McLaren", cursive;
   font-weight: 200;
+}
+
+footer {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  height: 2.5rem;
+  width: 100%;
+  padding: 0 16px;
+  margin: auto -16px;
+}
+
+footer p {
+  color: #ccc;
 }
