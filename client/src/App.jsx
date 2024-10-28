@@ -17,9 +17,9 @@ function App() {
     const fetchAPI = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/data");
-        setData(response.data.birthdays);
+        setData(response.data.list);
 
-        //console.log(response.data.birthdays);
+        //console.log(response.data.list);
       } catch (error) {
         console.error(error.message);
       }
@@ -50,7 +50,7 @@ function App() {
               <Birthday
                 key={index}
                 id={bdayItem.id}
-                person={bdayItem.person}
+                firstName={bdayItem.firstName}
                 onDelete={deleteBirthday}
               />
             );

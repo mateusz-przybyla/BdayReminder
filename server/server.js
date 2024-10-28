@@ -14,25 +14,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get("/api/data", cors(corsOptions), (req, res) => {
-  res.json({ birthdays: birthdays });
+  res.json({ list: list });
 });
 
 app.post("/api/data", cors(corsOptions), (req, res) => {
   console.log(req.body);
-  const newPerson = {
-    id: birthdays.length + 1,
-    person: req.body.person,
+  const newItem = {
+    id: list.length + 1,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    birthdate: req.body.birthdate,
+    comment: req.body.comment,
   };
 
-  birthdays.push(newPerson);
+  list.push(newItem);
 });
 
 app.delete("/api/data/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  const searchIndex = birthdays.findIndex((birthday) => birthday.id === id);
+  const searchIndex = list.findIndex((item) => item.id === id);
 
   if (searchIndex > -1) {
-    birthdays.splice(searchIndex, 1);
+    list.splice(searchIndex, 1);
     res.sendStatus(200);
   } else {
     res.status(404).json({
@@ -45,17 +48,26 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-var birthdays = [
+var list = [
   {
     id: 1,
-    person: "mateusz",
+    firstName: "mateusz",
+    lastName: "przybyla",
+    birthdate: "1994/01/01",
+    comment: "aaa",
   },
   {
     id: 2,
-    person: "paulina",
+    firstName: "paulina",
+    lastName: "przybyla",
+    birthdate: "1994/01/02",
+    comment: "bbb",
   },
   {
     id: 3,
-    person: "ania",
+    firstName: "ania",
+    lastName: "przybyla",
+    birthdate: "1994/01/03",
+    comment: "ccc",
   },
 ];

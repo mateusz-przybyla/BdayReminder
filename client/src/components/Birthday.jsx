@@ -9,7 +9,7 @@ function Birthday(props) {
   return (
     <div className="">
       <h1>{props.id}</h1>
-      <p>{props.person}</p>
+      <p>{props.firstName}</p>
       <button onClick={handleClick}>
         <DeleteIcon />
       </button>
