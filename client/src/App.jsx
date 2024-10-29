@@ -14,7 +14,7 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const fetchAPI = async () => {
+    const fetchBirthday = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/data");
         setData(response.data.list);
@@ -24,15 +24,29 @@ function App() {
         console.error(error.message);
       }
     };
-    fetchAPI();
-  }, [data]);
+    fetchBirthday();
+  }, []);
+
+  const addBirthday = async (newBirthday) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/data",
+        newBirthday
+      );
+      setData((prevData) => [...prevData, response.data]);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const deleteBirthday = async (id) => {
-    console.log("Delete");
-    console.log(id);
-
     try {
       await axios.delete(`http://localhost:8080/api/data/${id}`);
+      setData(
+        data.filter((birthday) => {
+          return birthday.id !== id;
+        })
+      );
     } catch (error) {
       console.error(error.message);
     }
@@ -51,6 +65,9 @@ function App() {
                 key={index}
                 id={bdayItem.id}
                 firstName={bdayItem.firstName}
+                lastName={bdayItem.lastName}
+                birthdate={bdayItem.birthdate}
+                comment={bdayItem.comment}
                 onDelete={deleteBirthday}
               />
             );
@@ -59,7 +76,7 @@ function App() {
           <h2>No results</h2>
         )}
 
-        <CreateArea />
+        <CreateArea onAdd={addBirthday} />
       </div>
 
       <Footer />

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 
-function CreateArea() {
+function CreateArea(props) {
   const [itemInput, setItemInput] = useState({
     firstName: "",
     lastName: "",
@@ -11,35 +10,29 @@ function CreateArea() {
   });
 
   const handleChange = (event) => {
-    const { itemInput, value } = event.target;
+    const { name, value } = event.target;
 
     setItemInput((prevValue) => {
       return {
         ...prevValue,
-        [itemInput]: value,
+        [name]: value,
       };
     });
   };
 
-  //async function handleSubmit(event) { //standardowa funkcja
-  const handleSubmit = async (event) => {
+  const submitBirthday = (event) => {
+    props.onAdd(itemInput);
+    setItemInput({
+      firstName: "",
+      lastName: "",
+      birthdate: "",
+      comment: "",
+    });
     event.preventDefault();
-
-    const userData = {
-      person: itemInput,
-    };
-
-    setItemInput({ firstName: "", lastName: "", birthdate: "", comment: "" });
-
-    try {
-      await axios.post("http://localhost:8080/api/data", userData);
-    } catch (error) {
-      console.error(error.message);
-    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={submitBirthday}>
       <input
         name="firstName"
         onChange={handleChange}
@@ -55,11 +48,10 @@ function CreateArea() {
         placeholder="Last name"
       />
       <input
-        name="birthDate"
+        name="birthdate"
         onChange={handleChange}
         type="date"
         value={itemInput.birthdate}
-        placeholder="Birthdate"
       />
       <textarea
         name="comment"

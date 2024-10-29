@@ -28,6 +28,7 @@ app.post("/api/data", cors(corsOptions), (req, res) => {
   };
 
   list.push(newItem);
+  res.json(newItem);
 });
 
 app.delete("/api/data/:id", (req, res) => {
@@ -53,21 +54,21 @@ var list = [
     id: 1,
     firstName: "mateusz",
     lastName: "przybyla",
-    birthdate: "1994/01/01",
+    birthdate: "1994-01-01",
     comment: "aaa",
   },
   {
     id: 2,
     firstName: "paulina",
     lastName: "przybyla",
-    birthdate: "1994/01/02",
+    birthdate: "1994-01-02",
     comment: "bbb",
   },
   {
     id: 3,
     firstName: "ania",
     lastName: "przybyla",
-    birthdate: "1994/01/03",
+    birthdate: "1994-01-03",
     comment: "ccc",
   },
 ];

@@ -10,6 +10,9 @@ function Birthday(props) {
     <div className="">
       <h1>{props.id}</h1>
       <p>{props.firstName}</p>
+      <p>{props.lastName}</p>
+      <p>{props.birthdate}</p>
+      <p>{props.comment}</p>
       <button onClick={handleClick}>
         <DeleteIcon />
       </button>
