@@ -9,12 +9,22 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarContainer } from "@mui/x-data-grid";
+import AddIcon from "@mui/icons-material/Add";
+import {
+  Button,
+  Stack,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+} from "@mui/material";
 
 //import { getList, setItem } from "./services/list";
 
 function App() {
   const [data, setData] = useState([]);
+  const [height, setHeight] = React.useState(400);
 
   useEffect(() => {
     const fetchBirthday = async () => {
@@ -117,23 +127,44 @@ function App() {
         <h2>Final List:</h2>
         <br />
 
-        <Box sx={{ height: 400, width: "100%" }}>
-          <DataGrid
-            editMode="row"
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
+        <Stack style={{ width: "100%" }} alignItems="flex-start" spacing={2}>
+          <FormControl fullWidth>
+            <InputLabel
+              htmlFor="height-of-container"
+              id="height-of-container-label"
+            >
+              Height of the container
+            </InputLabel>
+            <Select
+              label="Main Grouping Criteria"
+              onChange={(event) => setHeight(Number(event.target.value))}
+              value={height}
+              id="height-of-container"
+              labelId="height-of-container-label"
+            >
+              <MenuItem value="300">300px</MenuItem>
+              <MenuItem value="400">400px</MenuItem>
+              <MenuItem value="500">500px</MenuItem>
+            </Select>
+          </FormControl>
+          <div style={{ height, width: "100%" }}>
+            <DataGrid
+              editMode="row"
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 5,
+                  },
                 },
-              },
-            }}
-            pageSizeOptions={[5]}
-            checkboxSelection
-            disableRowSelectionOnClick
-          />
-        </Box>
+              }}
+              pageSizeOptions={[5, 10, 25, { value: -1, label: "All" }]}
+              checkboxSelection
+              disableRowSelectionOnClick
+            />
+          </div>
+        </Stack>
 
         <div>
           <br />
