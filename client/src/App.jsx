@@ -56,8 +56,10 @@ function App() {
     <>
       <Header />
 
+      <CreateArea onAdd={addBirthday} />
+
       <div className="main">
-        <h2>Test List:</h2>
+        <h2>Birthday List:</h2>
         {data.length > 0 ? (
           data.map((bdayItem, index) => {
             return (
@@ -75,8 +77,6 @@ function App() {
         ) : (
           <h2>No results</h2>
         )}
-
-        <CreateArea onAdd={addBirthday} />
 
         <div>
           <br />

@@ -32,7 +32,7 @@ function CreateArea(props) {
   };
 
   return (
-    <form onSubmit={submitBirthday}>
+    <form onSubmit={submitBirthday} className="create-bday">
       <input
         name="firstName"
         onChange={handleChange}
@@ -52,6 +52,7 @@ function CreateArea(props) {
         onChange={handleChange}
         type="date"
         value={itemInput.birthdate}
+        placeholder="Birth date"
       />
       <textarea
         name="comment"

@@ -7,7 +7,7 @@ function Birthday(props) {
   }
 
   return (
-    <div className="">
+    <div className="bday">
       <h1>{props.id}</h1>
       <p>{props.firstName}</p>
       <p>{props.lastName}</p>
