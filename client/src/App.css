@@ -16,11 +16,6 @@ body {
   position: relative;
 }
 
-.main {
-  padding-top: 25px;
-  padding-bottom: 100px;
-}
-
 header {
   background-color: #f5ba13;
   margin: auto -16px;
@@ -32,6 +27,46 @@ header h1 {
   color: #fff;
   font-family: "McLaren", cursive;
   font-weight: 200;
+}
+
+form.create-bday {
+  position: relative;
+  max-width: 480px;
+  margin: 30px auto 30px auto;
+  background: #fff;
+  padding: 15px;
+  border-radius: 7px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+form.create-bday input,
+form.create-bday textarea {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  outline: none;
+  font-size: 1.2em;
+  font-family: inherit;
+  resize: none;
+}
+
+input[type="date"] {
+  color: rgb(118, 118, 118);
+}
+
+form.create-bday button {
+  position: absolute;
+  right: 18px;
+  bottom: -18px;
+  background: #f5ba13;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  outline: none;
 }
 
 footer {
@@ -46,4 +81,30 @@ footer {
 
 footer p {
   color: #ccc;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
