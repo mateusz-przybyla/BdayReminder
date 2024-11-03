@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import { Fab, Zoom, Box, TextField } from "@mui/material";
 
 function CreateArea(props) {
   const [itemInput, setItemInput] = useState({
@@ -8,6 +9,7 @@ function CreateArea(props) {
     birthdate: "",
     comment: "",
   });
+  const [isExpanded, setExpanded] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,40 +33,50 @@ function CreateArea(props) {
     event.preventDefault();
   };
 
+  function expand() {
+    setExpanded(true);
+  }
+
   return (
     <form onSubmit={submitBirthday} className="create-bday">
-      <input
-        name="firstName"
-        onChange={handleChange}
-        type="text"
-        value={itemInput.firstName}
-        placeholder="First name"
-      />
-      <input
-        name="lastName"
-        onChange={handleChange}
-        type="text"
-        value={itemInput.lastName}
-        placeholder="Last name"
-      />
-      <input
-        name="birthdate"
-        onChange={handleChange}
-        type="date"
-        value={itemInput.birthdate}
-        placeholder="Birth date"
-      />
+      {isExpanded && (
+        <>
+          <input
+            name="firstName"
+            onChange={handleChange}
+            type="text"
+            value={itemInput.firstName}
+            placeholder="first name"
+          />
+          <input
+            name="lastName"
+            onChange={handleChange}
+            type="text"
+            value={itemInput.lastName}
+            placeholder="last name"
+          />
+          <input
+            name="birthdate"
+            onChange={handleChange}
+            type="date"
+            value={itemInput.birthdate}
+          />
+        </>
+      )}
       <textarea
         name="comment"
         onChange={handleChange}
+        onClick={expand}
         type="text"
         value={itemInput.comment}
-        placeholder="Comment"
-        rows="3"
+        placeholder={isExpanded ? "comment" : "add birthday"}
+        rows={isExpanded ? 3 : 1}
       />
-      <button type="submit">
-        <AddIcon />
-      </button>
+      <Zoom in={isExpanded}>
+        <Fab type="submit">
+          <AddIcon />
+        </Fab>
+      </Zoom>
     </form>
   );
 }

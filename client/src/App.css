@@ -16,11 +16,6 @@ body {
   position: relative;
 }
 
-.main {
-  padding-top: 25px;
-  padding-bottom: 100px;
-}
-
 header {
   background-color: #f5ba13;
   margin: auto -16px;
@@ -34,44 +29,10 @@ header h1 {
   font-weight: 200;
 }
 
-.bday {
-  background: #fff;
-  border-radius: 7px;
-  box-shadow: 0 2px 5px #ccc;
-  padding: 10px;
-  width: 240px;
-  margin: 16px;
-  float: left;
-}
-
-.bday h1 {
-  font-size: 1.1em;
-  margin-bottom: 6px;
-}
-
-.bday p {
-  font-size: 1.1em;
-  margin-bottom: 10px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.bday button {
-  position: relative;
-  float: right;
-  margin-right: 10px;
-  color: #f5ba13;
-  border: none;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  outline: none;
-}
-
 form.create-bday {
   position: relative;
   max-width: 480px;
-  margin: 30px auto 20px auto;
+  margin: 30px auto 30px auto;
   background: #fff;
   padding: 15px;
   border-radius: 7px;
@@ -87,6 +48,10 @@ form.create-bday textarea {
   font-size: 1.2em;
   font-family: inherit;
   resize: none;
+}
+
+input[type="date"] {
+  color: rgb(118, 118, 118);
 }
 
 form.create-bday button {
