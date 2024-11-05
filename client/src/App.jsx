@@ -1,23 +1,54 @@
 import React from "react";
-import "./App.css";
-import Header from "./components/Header";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
-import Info from "./components/Info";
-import BdayList from "./components/BdayList";
-import { Divider, Container } from "@mui/material";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 
-function App() {
+const isAuthenticated = true;
+
+const PublicRoutes = () => {
   return (
     <>
-      <Header />
-      <Container maxWidth="xl" sx={{ pt: "25px", pb: "100px" }}>
-        <BdayList />
-        <Divider sx={{ my: 3 }} />
-        <Info />
-      </Container>
+      <NavBar />
+      <Routes>
+        <Route path="login" element={<Login />} />
+
+        <Route path="/*" element={<Navigate to="/login" replace />} />
+      </Routes>
       <Footer />
     </>
   );
-}
+};
+
+const PrivateRoutes = () => {
+  return (
+    <>
+      <NavBar />
+      <Routes>
+        <Route path="home" element={<Home />} />
+        <Route path="profile" element={<Profile />} />
+
+        <Route path="/*" element={<Navigate to="/profile" replace />} />
+      </Routes>
+      <Footer />
+    </>
+  );
+};
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {isAuthenticated ? (
+          <Route path="/*" element={<PrivateRoutes />} />
+        ) : (
+          <Route path="/*" element={<PublicRoutes />} />
+        )}
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;

@@ -22,16 +22,17 @@ Project description:\
 
 ### How to start
 
-- ***
-- ***
+[in progress]
 
 ### Database schema
+
+[in progress]
 
 ![](./readme/***)
 
 ### Screenshot
 
-- First opening:
+[in progress]
 
 ![](./readme/***)
 
@@ -50,6 +51,7 @@ Frontend:
 
 - React.js Library,
 - Material UI (comprehensive foundational components),
+- MUI X Components (Charts),
 - Custom components with props,
 - React Hooks: useEffect, useState,
 - Vite.js (An extremely fast and lightweight web application build tool),
