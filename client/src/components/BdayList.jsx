@@ -34,6 +34,26 @@ function BdayList() {
     }
   };
 
+  const editBirthday = async (updatedBirthday) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:8080/api/data/${updatedBirthday.id}`,
+        updatedBirthday
+      );
+
+      const newData = data.map((item) => {
+        if (item.id === updatedBirthday.id) {
+          return response.data;
+        }
+        return item;
+      });
+
+      setData(newData);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   const deleteBirthday = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/api/data/${id}`);
@@ -71,6 +91,7 @@ function BdayList() {
                     birthdate={bdayItem.birthdate}
                     comment={bdayItem.comment}
                     onDelete={deleteBirthday}
+                    onEdit={editBirthday}
                   />
                 )
             )}

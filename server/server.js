@@ -19,6 +19,7 @@ app.get("/api/data", cors(corsOptions), (req, res) => {
 
 app.post("/api/data", cors(corsOptions), (req, res) => {
   console.log(req.body);
+
   const newItem = {
     id: list.length + 1,
     firstName: req.body.firstName,
@@ -33,7 +34,7 @@ app.post("/api/data", cors(corsOptions), (req, res) => {
 
 app.patch("/api/data/:id", cors(corsOptions), (req, res) => {
   const id = parseInt(req.params.id);
-  const existingItem = players.find((item) => id === item.id);
+  const existingItem = list.find((item) => id === item.id);
 
   const replacementItem = {
     id: id,

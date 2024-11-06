@@ -16,8 +16,16 @@ function Birthday(props) {
     props.onDelete(props.id);
   }
 
-  //zaimplementować
-  function handleEditClick() {}
+  function handleEditClick() {
+    const updateObj = {
+      id: props.id,
+      firstName: "daria",
+      lastName: "chrubasik",
+      birthdate: props.birthdate,
+      comment: "nic",
+    };
+    props.onEdit(updateObj);
+  }
 
   const bdayDay = parseInt(props.birthdate.substring(8, 10));
   const bdayMonth = parseInt(props.birthdate.substring(5, 7));
