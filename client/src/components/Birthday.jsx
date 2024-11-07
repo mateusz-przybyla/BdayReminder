@@ -1,9 +1,21 @@
 import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { IconButton, Fab, Typography, Box } from "@mui/material";
-import { Card, CardActions, CardContent, Collapse } from "@mui/material";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Collapse,
+  Modal,
+  IconButton,
+  Fab,
+  Typography,
+  Box,
+} from "@mui/material";
+import { TextField, Divider } from "@mui/material";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+import SendIcon from "@mui/icons-material/Send";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -12,20 +24,49 @@ const currentDay = new Date().getDate();
 function Birthday(props) {
   const [isExpanded, setExpanded] = useState(false);
 
+  const [itemInput, setItemInput] = useState({
+    id: props.id,
+    firstName: props.firstName,
+    lastName: props.lastName,
+    birthdate: props.birthdate,
+    comment: props.comment,
+  });
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const editFormStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "5px",
+  };
+
   function handleDeleteClick() {
     props.onDelete(props.id);
   }
 
-  function handleEditClick() {
-    const updateObj = {
-      id: props.id,
-      firstName: "daria",
-      lastName: "chrubasik",
-      birthdate: props.birthdate,
-      comment: "nic",
-    };
-    props.onEdit(updateObj);
-  }
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setItemInput((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  };
+
+  const sumbitUpdatedBirthday = (event) => {
+    props.onEdit(itemInput);
+    event.preventDefault();
+  };
 
   const bdayDay = parseInt(props.birthdate.substring(8, 10));
   const bdayMonth = parseInt(props.birthdate.substring(5, 7));
@@ -97,12 +138,108 @@ function Birthday(props) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Fab onClick={handleDeleteClick} aria-label="delete" size="small">
+          <Fab
+            onClick={handleDeleteClick}
+            aria-label="delete"
+            size="small"
+            color="error"
+          >
             <DeleteIcon />
           </Fab>
-          <Fab onClick={handleEditClick} aria-label="edit" size="small">
+          <Fab
+            onClick={handleOpen}
+            aria-label="edit"
+            size="small"
+            color="secondary"
+          >
             <EditIcon />
           </Fab>
+
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-birthday"
+            aria-describedby="modal-modal-edit-birthday-props"
+          >
+            <Box
+              sx={editFormStyle}
+              component="form"
+              noValidate
+              autoComplete="off"
+              onSubmit={sumbitUpdatedBirthday}
+            >
+              <Typography id="modal-modal-birthday" variant="h5" component="h2">
+                Edit birthday data:
+              </Typography>
+              <Divider sx={{ my: 2 }} />
+              <TextField
+                id="updated-firstName"
+                label="first name"
+                type="text"
+                margin="dense"
+                fullWidth
+                name="firstName"
+                value={itemInput.firstName}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                id="updated-lastName"
+                label="last name"
+                type="text"
+                margin="dense"
+                fullWidth
+                name="lastName"
+                value={itemInput.lastName}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                id="updated-birthdate"
+                label="birthdate"
+                type="date"
+                margin="dense"
+                fullWidth
+                name="birthdate"
+                value={itemInput.birthdate}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                id="updated-comment"
+                label="comment"
+                multiline
+                margin="dense"
+                fullWidth
+                name="comment"
+                value={itemInput.comment}
+                onChange={handleChange}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  mt: 2,
+                }}
+              >
+                <Fab
+                  size="small"
+                  aria-label="cancel-modal"
+                  onClick={handleClose}
+                >
+                  <ClearIcon />
+                </Fab>
+                <Fab
+                  type="submit"
+                  size="small"
+                  aria-label="send-updated-data"
+                  color="primary"
+                >
+                  <SendIcon />
+                </Fab>
+              </Box>
+            </Box>
+          </Modal>
         </CardActions>
       </Collapse>
     </Card>
