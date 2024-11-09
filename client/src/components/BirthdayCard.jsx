@@ -11,13 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import EditModal from "./EditModal";
+import { currentDay, currentMonth, currentYear } from "../utils/Date";
 
-const currentYear = new Date().getFullYear();
-const currentMonth = new Date().getMonth() + 1;
-const currentDay = new Date().getDate();
-
-function BirthdayCard(props) {
+const BirthdayCard = (props) => {
   const [isExpanded, setExpanded] = useState(false);
+
+  const expandCard = () => {
+    isExpanded === false ? setExpanded(true) : setExpanded(false);
+  };
 
   const handleDeleteClick = () => {
     props.onDelete(props.birthday.id);
@@ -31,26 +32,6 @@ function BirthdayCard(props) {
   const bdayMonth = parseInt(props.birthday.birthdate.substring(5, 7));
   const bdayYear = parseInt(props.birthday.birthdate.substring(0, 4));
 
-  var customStyle = {
-    color: "",
-  };
-
-  if (currentMonth === bdayMonth && currentDay === bdayDay) {
-    customStyle.color = "green";
-  } else if (
-    (currentMonth === bdayMonth && currentDay < bdayDay) ||
-    currentMonth < bdayMonth
-  ) {
-    customStyle.color = "blue";
-  } else {
-    customStyle.color = "red";
-  }
-  const age = currentYear - bdayYear;
-
-  const expand = () => {
-    isExpanded === false ? setExpanded(true) : setExpanded(false);
-  };
-
   return (
     <Card
       sx={{
@@ -58,8 +39,11 @@ function BirthdayCard(props) {
         p: 1,
         m: 1,
         "&:hover": { cursor: "pointer" },
+        backgroundColor:
+          currentMonth === bdayMonth && currentDay === bdayDay
+            ? "#f5ba13"
+            : "#FFFBE6",
       }}
-      style={customStyle}
     >
       <CardContent
         sx={{
@@ -72,7 +56,7 @@ function BirthdayCard(props) {
             gutterBottom
             sx={{ color: "text.secondary", fontSize: 14 }}
           >
-            {props.birthday.birthdate} • (Age: {age})
+            {props.birthday.birthdate} • (Age: {currentYear - bdayYear})
           </Typography>
           <Typography gutterBottom variant="h6" sx={{ mb: 0 }}>
             {props.birthday.firstName} {props.birthday.lastName}
@@ -81,7 +65,7 @@ function BirthdayCard(props) {
         <CardActions sx={{ pb: 0, mb: 0 }}>
           <IconButton
             sx={{ pb: 0, ml: "auto" }}
-            onClick={expand}
+            onClick={expandCard}
             aria-label="show more"
             size="small"
           >
@@ -110,6 +94,6 @@ function BirthdayCard(props) {
       </Collapse>
     </Card>
   );
-}
+};
 
 export default BirthdayCard;
