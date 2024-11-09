@@ -3,7 +3,7 @@ import axios from "axios";
 import { Divider, Container, Box, Chip } from "@mui/material";
 import BirthdayCard from "../components/BirthdayCard";
 import AddBdayForm from "../components/AddBdayForm";
-import Chart from "../components/Chart";
+import CommonBarChart from "../components/CommonBarChart";
 import Info from "../components/Info";
 import months from "../assets/months";
 import "../App.css";
@@ -67,6 +67,20 @@ const Profile = () => {
       console.error(error.message);
     }
   };
+
+  const calculateBdaysPerMonth = () => {
+    var result = [];
+    months.forEach((month) => {
+      const itemsPerMonth = data.reduce((accumulator, currentValue) => {
+        currentValue.birthdate.includes(`-${month.number}-`) && accumulator++;
+        return accumulator;
+      }, 0);
+
+      result.push(itemsPerMonth);
+    });
+    return result;
+  };
+
   return (
     <Container maxWidth="xl" sx={{ pt: "25px", pb: "100px" }}>
       <AddBdayForm onAdd={addBirthday} />
@@ -76,7 +90,6 @@ const Profile = () => {
           <Divider>
             <Chip sx={{ my: 1 }} label={month.name} size="medium" />
           </Divider>
-
           <Box
             sx={{ display: "flex", justifyContent: "left", flexWrap: "wrap" }}
           >
@@ -95,7 +108,15 @@ const Profile = () => {
         </Box>
       ))}
       <Divider sx={{ my: 3 }} />
-      <Chart bdayData={data} />
+      <Box sx={{ maxWidth: 1000, mx: "auto" }}>
+        <CommonBarChart
+          xAxisData={months.map((month) => month.name)}
+          yValues={calculateBdaysPerMonth()}
+          yAxisLabel="Amount"
+          legendLabel="birthdays/month"
+          height={400}
+        />
+      </Box>
       <Divider sx={{ my: 3 }} />
       <Info />
     </Container>
