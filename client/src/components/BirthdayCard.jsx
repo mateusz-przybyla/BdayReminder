@@ -38,7 +38,6 @@ const BirthdayCard = (props) => {
         width: 275,
         p: 1,
         m: 1,
-        "&:hover": { cursor: "pointer" },
         backgroundColor:
           currentMonth === bdayMonth && currentDay === bdayDay
             ? "#f5ba13"

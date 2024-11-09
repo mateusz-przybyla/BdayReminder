@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
 import BirthdayCard from "./BirthdayCard";
-import CreateArea from "./CreateArea";
+import AddBdayForm from "./AddBdayForm";
 import { Divider, Chip, Box } from "@mui/material";
 import months from "../assets/months";
 import Chart from "./Chart";
@@ -69,7 +69,7 @@ function BdayList() {
 
   return (
     <>
-      <CreateArea onAdd={addBirthday} />
+      <AddBdayForm onAdd={addBirthday} />
 
       {months.map((month) => (
         <Box key={`box${month.number}`}>

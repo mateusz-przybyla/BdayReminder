@@ -3,7 +3,7 @@ import SendIcon from "@mui/icons-material/Send";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Fab, Typography, Box, TextField, Divider } from "@mui/material";
 
-const EditForm = (props) => {
+const EditBdayForm = (props) => {
   const [itemInput, setItemInput] = useState({
     id: props.birthday.id,
     firstName: props.birthday.firstName,
@@ -11,18 +11,6 @@ const EditForm = (props) => {
     birthdate: props.birthday.birthdate,
     comment: props.birthday.comment,
   });
-
-  const editFormStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: "5px",
-  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -39,6 +27,30 @@ const EditForm = (props) => {
     event.preventDefault();
     props.onEdit(itemInput);
     props.handleClose();
+  };
+
+  const editFormStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "5px",
+  };
+
+  const sendFabStyle = {
+    position: "absolute",
+    right: "20px",
+    bottom: "-20px",
+  };
+
+  const closeFabStyle = {
+    position: "absolute",
+    right: "70px",
+    bottom: "-20px",
   };
 
   return (
@@ -92,31 +104,16 @@ const EditForm = (props) => {
         value={itemInput.comment}
         onChange={handleChange}
       />
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          mt: 2,
-        }}
-      >
-        <Fab
-          size="small"
-          aria-label="cancel-edit-modal"
-          onClick={props.handleClose}
-        >
-          <ClearIcon />
-        </Fab>
-        <Fab
-          type="submit"
-          size="small"
-          aria-label="send-updated-data"
-          color="primary"
-        >
+      <div>
+        <Fab type="submit" size="small" color="primary" sx={sendFabStyle}>
           <SendIcon />
         </Fab>
-      </Box>
+        <Fab size="small" sx={closeFabStyle} onClick={props.handleClose}>
+          <ClearIcon />
+        </Fab>
+      </div>
     </Box>
   );
 };
 
-export default EditForm;
+export default EditBdayForm;
