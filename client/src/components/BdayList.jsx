@@ -85,11 +85,7 @@ function BdayList() {
                 bdayItem.birthdate.substring(5, 7) === month.number && (
                   <BirthdayCard
                     key={index}
-                    id={bdayItem.id}
-                    firstName={bdayItem.firstName}
-                    lastName={bdayItem.lastName}
-                    birthdate={bdayItem.birthdate}
-                    comment={bdayItem.comment}
+                    birthday={bdayItem}
                     onDelete={deleteBirthday}
                     onEdit={editBirthday}
                   />

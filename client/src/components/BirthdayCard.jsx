@@ -20,16 +20,16 @@ function BirthdayCard(props) {
   const [isExpanded, setExpanded] = useState(false);
 
   const handleDeleteClick = () => {
-    props.onDelete(props.id);
+    props.onDelete(props.birthday.id);
   };
 
   const sumbitUpdatedBirthday = (updatedBirthday) => {
     props.onEdit(updatedBirthday);
   };
 
-  const bdayDay = parseInt(props.birthdate.substring(8, 10));
-  const bdayMonth = parseInt(props.birthdate.substring(5, 7));
-  const bdayYear = parseInt(props.birthdate.substring(0, 4));
+  const bdayDay = parseInt(props.birthday.birthdate.substring(8, 10));
+  const bdayMonth = parseInt(props.birthday.birthdate.substring(5, 7));
+  const bdayYear = parseInt(props.birthday.birthdate.substring(0, 4));
 
   var customStyle = {
     color: "",
@@ -72,10 +72,10 @@ function BirthdayCard(props) {
             gutterBottom
             sx={{ color: "text.secondary", fontSize: 14 }}
           >
-            {props.birthdate} • (Age: {age})
+            {props.birthday.birthdate} • (Age: {age})
           </Typography>
           <Typography gutterBottom variant="h6" sx={{ mb: 0 }}>
-            {props.firstName} {props.lastName}
+            {props.birthday.firstName} {props.birthday.lastName}
           </Typography>
         </div>
         <CardActions sx={{ pb: 0, mb: 0 }}>
@@ -93,7 +93,7 @@ function BirthdayCard(props) {
       <Collapse in={isExpanded} timeout="auto" unmountOnExit>
         <CardContent sx={{ pt: 0 }}>
           <Typography sx={{ color: "text.secondary" }}>
-            {props.comment}
+            {props.birthday.comment}
           </Typography>
         </CardContent>
         <CardActions>
@@ -105,14 +105,7 @@ function BirthdayCard(props) {
           >
             <DeleteIcon />
           </Fab>
-          <EditModal
-            id={props.id}
-            firstName={props.firstName}
-            lastName={props.lastName}
-            birthdate={props.birthdate}
-            comment={props.comment}
-            onEdit={sumbitUpdatedBirthday}
-          />
+          <EditModal birthday={props.birthday} onEdit={sumbitUpdatedBirthday} />
         </CardActions>
       </Collapse>
     </Card>
