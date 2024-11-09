@@ -35,6 +35,7 @@ const AddBdayForm = (props) => {
       comment: "",
     });
     event.preventDefault();
+    closeForm();
   };
 
   const addFormStyle = {

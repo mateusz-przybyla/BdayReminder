@@ -3,13 +3,16 @@ import axios from "axios";
 import { Divider, Container, Box, Chip } from "@mui/material";
 import BirthdayCard from "../components/BirthdayCard";
 import AddBdayForm from "../components/AddBdayForm";
-import CommonBarChart from "../components/CommonBarChart";
+import CommonBarChart from "../components/Common/CommonBarChart";
+import CommonAlert from "../components/Common/CommonAlert";
 import Info from "../components/Info";
 import months from "../assets/months";
 import "../App.css";
+import CheckIcon from "@mui/icons-material/Check";
 
 const Profile = () => {
   const [data, setData] = useState([]);
+  const [alert, setAlert] = useState(false);
 
   useEffect(() => {
     const fetchBirthday = async () => {
@@ -23,6 +26,14 @@ const Profile = () => {
     fetchBirthday();
   }, []);
 
+  useEffect(() => {
+    if (alert) {
+      setTimeout(() => {
+        setAlert(false);
+      }, 1500);
+    }
+  }, [alert]);
+
   const addBirthday = async (newBirthday) => {
     try {
       const response = await axios.post(
@@ -30,6 +41,7 @@ const Profile = () => {
         newBirthday
       );
       setData((prevData) => [...prevData, response.data]);
+      setAlert(true);
     } catch (error) {
       console.error(error.message);
     }
@@ -83,6 +95,15 @@ const Profile = () => {
 
   return (
     <Container maxWidth="xl" sx={{ pt: "25px", pb: "100px" }}>
+      {alert && (
+        <CommonAlert
+          content="Great! New birthday was successfully added to your list."
+          icon={<CheckIcon fontSize="inherit" />}
+          severity="success"
+          sx={{ maxWidth: "800px", mx: "auto" }}
+        />
+      )}
+
       <AddBdayForm onAdd={addBirthday} />
 
       {months.map((month) => (
@@ -95,7 +116,7 @@ const Profile = () => {
           >
             {data.map(
               (bdayItem, index) =>
-                bdayItem.birthdate.substring(5, 7) === month.number && (
+                bdayItem.birthdate.includes(`-${month.number}-`) && (
                   <BirthdayCard
                     key={index}
                     birthday={bdayItem}
