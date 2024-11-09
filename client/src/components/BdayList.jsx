@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
-import Birthday from "./Birthday";
+import BirthdayCard from "./BirthdayCard";
 import CreateArea from "./CreateArea";
 import { Divider, Chip, Box } from "@mui/material";
 import months from "../assets/months";
@@ -83,7 +83,7 @@ function BdayList() {
             {data.map(
               (bdayItem, index) =>
                 bdayItem.birthdate.substring(5, 7) === month.number && (
-                  <Birthday
+                  <BirthdayCard
                     key={index}
                     id={bdayItem.id}
                     firstName={bdayItem.firstName}
