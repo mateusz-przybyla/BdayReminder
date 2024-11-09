@@ -51,7 +51,7 @@ Frontend:
 
 - React.js Library,
 - Material UI (comprehensive foundational components),
-- MUI X Components (Charts),
+- MUI X Components: charts,
 - Custom components with props,
 - React Hooks: useEffect, useState,
 - Vite.js (An extremely fast and lightweight web application build tool),

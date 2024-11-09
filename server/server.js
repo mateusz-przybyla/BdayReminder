@@ -19,6 +19,7 @@ app.get("/api/data", cors(corsOptions), (req, res) => {
 
 app.post("/api/data", cors(corsOptions), (req, res) => {
   console.log(req.body);
+
   const newItem = {
     id: list.length + 1,
     firstName: req.body.firstName,
@@ -31,7 +32,26 @@ app.post("/api/data", cors(corsOptions), (req, res) => {
   res.json(newItem);
 });
 
-app.delete("/api/data/:id", (req, res) => {
+app.patch("/api/data/:id", cors(corsOptions), (req, res) => {
+  const id = parseInt(req.params.id);
+  const existingItem = list.find((item) => id === item.id);
+
+  const replacementItem = {
+    id: id,
+    firstName: req.body.firstName || existingItem.firstName,
+    lastName: req.body.lastName || existingItem.lastName,
+    birthdate: req.body.birthdate || existingItem.birthdate,
+    comment: req.body.comment || existingItem.comment,
+  };
+
+  const searchIndex = list.findIndex((item) => id === item.id);
+  list[searchIndex] = replacementItem;
+
+  console.log(list[searchIndex]);
+  res.json(replacementItem);
+});
+
+app.delete("/api/data/:id", cors(corsOptions), (req, res) => {
   const id = parseInt(req.params.id);
   const searchIndex = list.findIndex((item) => item.id === id);
 

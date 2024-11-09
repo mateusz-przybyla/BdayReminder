@@ -1,27 +1,35 @@
 import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { IconButton, Fab, Typography, Box } from "@mui/material";
-import { Card, CardActions, CardContent, Collapse } from "@mui/material";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Collapse,
+  IconButton,
+  Fab,
+  Typography,
+} from "@mui/material";
+import EditModal from "./EditModal";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 const currentDay = new Date().getDate();
 
-function Birthday(props) {
+function BirthdayCard(props) {
   const [isExpanded, setExpanded] = useState(false);
 
-  function handleDeleteClick() {
-    props.onDelete(props.id);
-  }
+  const handleDeleteClick = () => {
+    props.onDelete(props.birthday.id);
+  };
 
-  //zaimplementować
-  function handleEditClick() {}
+  const sumbitUpdatedBirthday = (updatedBirthday) => {
+    props.onEdit(updatedBirthday);
+  };
 
-  const bdayDay = parseInt(props.birthdate.substring(8, 10));
-  const bdayMonth = parseInt(props.birthdate.substring(5, 7));
-  const bdayYear = parseInt(props.birthdate.substring(0, 4));
+  const bdayDay = parseInt(props.birthday.birthdate.substring(8, 10));
+  const bdayMonth = parseInt(props.birthday.birthdate.substring(5, 7));
+  const bdayYear = parseInt(props.birthday.birthdate.substring(0, 4));
 
   var customStyle = {
     color: "",
@@ -39,9 +47,9 @@ function Birthday(props) {
   }
   const age = currentYear - bdayYear;
 
-  function expand() {
+  const expand = () => {
     isExpanded === false ? setExpanded(true) : setExpanded(false);
-  }
+  };
 
   return (
     <Card
@@ -64,10 +72,10 @@ function Birthday(props) {
             gutterBottom
             sx={{ color: "text.secondary", fontSize: 14 }}
           >
-            {props.birthdate} • (Age: {age})
+            {props.birthday.birthdate} • (Age: {age})
           </Typography>
           <Typography gutterBottom variant="h6" sx={{ mb: 0 }}>
-            {props.firstName} {props.lastName}
+            {props.birthday.firstName} {props.birthday.lastName}
           </Typography>
         </div>
         <CardActions sx={{ pb: 0, mb: 0 }}>
@@ -85,20 +93,23 @@ function Birthday(props) {
       <Collapse in={isExpanded} timeout="auto" unmountOnExit>
         <CardContent sx={{ pt: 0 }}>
           <Typography sx={{ color: "text.secondary" }}>
-            {props.comment}
+            {props.birthday.comment}
           </Typography>
         </CardContent>
         <CardActions>
-          <Fab onClick={handleDeleteClick} aria-label="delete" size="small">
+          <Fab
+            onClick={handleDeleteClick}
+            aria-label="delete"
+            size="small"
+            color="error"
+          >
             <DeleteIcon />
           </Fab>
-          <Fab onClick={handleEditClick} aria-label="edit" size="small">
-            <EditIcon />
-          </Fab>
+          <EditModal birthday={props.birthday} onEdit={sumbitUpdatedBirthday} />
         </CardActions>
       </Collapse>
     </Card>
   );
 }
 
-export default Birthday;
+export default BirthdayCard;
