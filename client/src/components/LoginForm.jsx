@@ -1,14 +1,34 @@
 import React, { useState } from "react";
 import { Box, TextField, Fab, Typography, Divider, Link } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { loginUser } from "../services/auth";
 
-const LoginForm = () => {
+const LoginForm = ({ setToken }) => {
   const [unregistered, setAsUnregistered] = useState(false);
+  const [itemInput, setItemInput] = useState({
+    email: "",
+    password: "",
+  });
 
-  const toggleAuth = () =>
+  const toggleLoginRegister = () =>
     unregistered ? setAsUnregistered(false) : setAsUnregistered(true);
 
-  const handleChange = () => {};
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setItemInput((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const token = await loginUser(itemInput);
+    setToken(token.data);
+  };
 
   const loginFormStyle = {
     position: "relative",
@@ -29,7 +49,13 @@ const LoginForm = () => {
   };
 
   return (
-    <Box component="form" noValidate autoComplete="off" sx={loginFormStyle}>
+    <Box
+      sx={loginFormStyle}
+      component="form"
+      noValidate
+      autoComplete="off"
+      onSubmit={handleSubmit}
+    >
       <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>
         {unregistered ? "Sign up" : "Sign In"}
       </Typography>
@@ -40,7 +66,7 @@ const LoginForm = () => {
         margin="dense"
         fullWidth
         name="email"
-        value=""
+        value={itemInput.email}
         onChange={handleChange}
         required
       ></TextField>
@@ -50,7 +76,7 @@ const LoginForm = () => {
         margin="dense"
         fullWidth
         name="password"
-        value=""
+        value={itemInput.password}
         onChange={handleChange}
         required
       ></TextField>
@@ -70,7 +96,7 @@ const LoginForm = () => {
       <Typography sx={{ fontSize: "13px", mt: 2, color: "#758694" }}>
         {unregistered ? "Already have an account? " : "New to Bday Reminder? "}
         <Link
-          onClick={toggleAuth}
+          onClick={toggleLoginRegister}
           sx={{
             color: "#000000",
             textDecoration: "none",

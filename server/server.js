@@ -13,6 +13,16 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+//Authentication API
+
+app.use("/api/login", (req, res) => {
+  res.send({
+    token: "test123",
+  });
+});
+
+//Birthdays API
+
 app.get("/api/data", cors(corsOptions), (req, res) => {
   res.json({ list: list });
 });

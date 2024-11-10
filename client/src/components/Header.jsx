@@ -25,7 +25,7 @@ const NavList = (props) => {
       fontSize={{ xs: "22px", sm: "initial" }}
       sx={props.sx}
     >
-      {props.isAuthenticated ? (
+      {props.isAuthenticated && (
         <>
           <Link
             href="/home"
@@ -45,17 +45,16 @@ const NavList = (props) => {
           >
             Profile
           </Link>
+          <Link
+            href="/logout"
+            sx={{
+              color: { xs: "#f5ba13", sm: "white" },
+              textDecoration: "none",
+            }}
+          >
+            Logout
+          </Link>
         </>
-      ) : (
-        <Link
-          href="/login"
-          sx={{
-            color: { xs: "#f5ba13", sm: "white" },
-            textDecoration: "none",
-          }}
-        >
-          Login
-        </Link>
       )}
     </Stack>
   );
@@ -114,7 +113,7 @@ const Nav = (props) => {
 const Header = (props) => {
   return (
     <AppBar
-      component="nav"
+      component="header"
       sx={{ background: "#f5ba13" }}
       position={props.isAuthenticated ? "fixed" : "static"}
     >
@@ -130,7 +129,6 @@ const Header = (props) => {
               <CakeIcon fontSize="medium" sx={{ m: "auto" }} />
               <Typography
                 variant="h5"
-                component="div"
                 sx={{
                   display: { xs: "none", sm: "inherit" },
                   fontFamily: "McLaren, cursive",

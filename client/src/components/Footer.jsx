@@ -13,7 +13,7 @@ const Footer = () => {
   };
 
   return (
-    <Box sx={footerStyle}>
+    <Box sx={footerStyle} component="footer">
       <Typography sx={{ color: "#ffffff" }}>
         Copyright ⓒ {currentYear}
       </Typography>

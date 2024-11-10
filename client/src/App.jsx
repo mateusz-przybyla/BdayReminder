@@ -1,53 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Login from "./pages/Login";
+import Authentication from "./pages/Authentication";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import Logout from "./pages/Logout";
 
-const isAuthenticated = false;
-
-const PublicRoutes = () => {
-  return (
-    <>
-      <Header isAuthenticated={isAuthenticated} />
-      <Routes>
-        <Route path="login" element={<Login />} />
-
-        <Route path="/*" element={<Navigate to="/login" replace />} />
-      </Routes>
-      <Footer />
-    </>
-  );
-};
-
-const PrivateRoutes = () => {
-  return (
-    <>
-      <Header isAuthenticated={isAuthenticated} />
-      <Routes>
-        <Route path="home" element={<Home />} />
-        <Route path="profile" element={<Profile />} />
-
-        <Route path="/*" element={<Navigate to="/profile" replace />} />
-      </Routes>
-      <Footer />
-    </>
-  );
-};
+//const isAuthenticated = false;
 
 const App = () => {
+  const [token, setToken] = useState("");
+
+  console.log("App: " + token);
   return (
-    <BrowserRouter>
-      <Routes>
-        {isAuthenticated ? (
-          <Route path="/*" element={<PrivateRoutes />} />
-        ) : (
-          <Route path="/*" element={<PublicRoutes />} />
-        )}
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <Header isAuthenticated={token} />
+      <BrowserRouter>
+        <Routes>
+          {token ? (
+            <>
+              <Route path="home" element={<Home />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="logout" element={<Logout setToken={setToken} />} />
+
+              <Route path="/*" element={<Navigate to="/home" replace />} />
+            </>
+          ) : (
+            <>
+              <Route
+                path="authentication"
+                element={<Authentication setToken={setToken} />}
+              />
+
+              <Route
+                path="/*"
+                element={<Navigate to="/authentication" replace />}
+              />
+            </>
+          )}
+        </Routes>
+      </BrowserRouter>
+      <Footer />
+    </div>
   );
 };
 
