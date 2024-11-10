@@ -106,7 +106,13 @@ const Profile = () => {
           content="Great! New birthday was successfully added to your list."
           icon={<CheckIcon fontSize="inherit" />}
           severity="success"
-          sx={{ maxWidth: "800px", mx: "auto", mb: 3 }}
+          sx={{
+            maxWidth: "800px",
+            position: "fixed",
+            bottom: "50px",
+            left: "25px",
+            zIndex: 99,
+          }}
         />
       )}
       {editAlert && (
@@ -114,7 +120,13 @@ const Profile = () => {
           content="Done! Birthday was successfully updated."
           icon={<CheckIcon fontSize="inherit" />}
           severity="info"
-          sx={{ maxWidth: "800px", mx: "auto", mb: 3 }}
+          sx={{
+            maxWidth: "800px",
+            position: "fixed",
+            bottom: "50px",
+            left: "25px",
+            zIndex: 99,
+          }}
         />
       )}
       {deleteAlert && (
@@ -122,7 +134,13 @@ const Profile = () => {
           content="Done! Birthday was successfully deleted."
           icon={<CheckIcon fontSize="inherit" />}
           severity="warning"
-          sx={{ maxWidth: "800px", mx: "auto", mb: 3 }}
+          sx={{
+            maxWidth: "800px",
+            position: "fixed",
+            bottom: "50px",
+            left: "25px",
+            zIndex: 99,
+          }}
         />
       )}
 
