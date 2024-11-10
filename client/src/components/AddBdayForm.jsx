@@ -41,7 +41,7 @@ const AddBdayForm = (props) => {
   const addFormStyle = {
     position: "relative",
     maxWidth: "480px",
-    margin: "0px auto 30px auto",
+    margin: "0px auto 20px auto",
     background: "#fff",
     padding: "25px",
     borderRadius: "7px",

@@ -114,7 +114,7 @@ const Nav = (props) => {
 const Header = (props) => {
   return (
     <AppBar component="nav" sx={{ background: "#f5ba13" }}>
-      <Container maxWidth="xl">
+      <Container>
         <Toolbar>
           <Stack
             direction="row"

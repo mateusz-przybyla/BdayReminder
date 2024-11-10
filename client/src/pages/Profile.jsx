@@ -100,13 +100,13 @@ const Profile = () => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ mt: "100px", pb: "100px" }}>
+    <Container sx={{ mt: "65px", pt: 3, pb: "100px" }}>
       {addAlert && (
         <CommonAlert
           content="Great! New birthday was successfully added to your list."
           icon={<CheckIcon fontSize="inherit" />}
           severity="success"
-          sx={{ maxWidth: "800px", mx: "auto" }}
+          sx={{ maxWidth: "800px", mx: "auto", mb: 3 }}
         />
       )}
       {editAlert && (
@@ -114,7 +114,7 @@ const Profile = () => {
           content="Done! Birthday was successfully updated."
           icon={<CheckIcon fontSize="inherit" />}
           severity="info"
-          sx={{ maxWidth: "800px", mx: "auto" }}
+          sx={{ maxWidth: "800px", mx: "auto", mb: 3 }}
         />
       )}
       {deleteAlert && (
@@ -122,7 +122,7 @@ const Profile = () => {
           content="Done! Birthday was successfully deleted."
           icon={<CheckIcon fontSize="inherit" />}
           severity="warning"
-          sx={{ maxWidth: "800px", mx: "auto" }}
+          sx={{ maxWidth: "800px", mx: "auto", mb: 3 }}
         />
       )}
 

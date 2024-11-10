@@ -35,7 +35,7 @@ const BirthdayCard = (props) => {
   return (
     <Card
       sx={{
-        width: 275,
+        width: 270,
         p: 1,
         m: 1,
         backgroundColor:

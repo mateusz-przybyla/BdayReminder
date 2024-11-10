@@ -1,12 +1,22 @@
 import React from "react";
+import { Typography, Box } from "@mui/material";
+import { currentYear } from "../utils/Date";
 
-function Footer() {
-  const year = new Date().getFullYear();
+const Footer = () => {
+  const footerStyle = {
+    position: "absolute",
+    bottom: 0,
+    textAlign: "center",
+    padding: "15px 0",
+    width: "100%",
+    background: "#ccc",
+  };
+
   return (
-    <footer>
-      <p>Copyright ⓒ {year}</p>
-    </footer>
+    <Box sx={footerStyle}>
+      <Typography sx={{ color: "#eee" }}>Copyright ⓒ {currentYear}</Typography>
+    </Box>
   );
-}
+};
 
 export default Footer;
