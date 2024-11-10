@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { Modal, Fab } from "@mui/material";
-import EditForm from "./EditForm";
+import EditBdayForm from "./EditBdayForm";
 
 const EditModal = (props) => {
   const [open, setOpen] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -13,7 +14,7 @@ const EditModal = (props) => {
   };
 
   return (
-    <>
+    <div>
       <Fab
         onClick={handleOpen}
         aria-label="edit"
@@ -22,21 +23,16 @@ const EditModal = (props) => {
       >
         <EditIcon />
       </Fab>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-edit-birthday"
-        aria-describedby="modal-edit-birthday-props"
-      >
+      <Modal open={open} onClose={handleClose}>
         <div>
-          <EditForm
+          <EditBdayForm
             birthday={props.birthday}
             onEdit={sumbitUpdatedBirthday}
             handleClose={handleClose}
           />
         </div>
       </Modal>
-    </>
+    </div>
   );
 };
 
