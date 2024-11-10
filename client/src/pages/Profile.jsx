@@ -12,7 +12,9 @@ import CheckIcon from "@mui/icons-material/Check";
 
 const Profile = () => {
   const [data, setData] = useState([]);
-  const [alert, setAlert] = useState(false);
+  const [addAlert, setAddAlert] = useState(false);
+  const [editAlert, setEditAlert] = useState(false);
+  const [deleteAlert, setDeleteAlert] = useState(false);
 
   useEffect(() => {
     const fetchBirthday = async () => {
@@ -27,12 +29,14 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    if (alert) {
+    if (addAlert || editAlert || deleteAlert) {
       setTimeout(() => {
-        setAlert(false);
-      }, 1500);
+        setAddAlert(false);
+        setEditAlert(false);
+        setDeleteAlert(false);
+      }, 2000);
     }
-  }, [alert]);
+  }, [addAlert, editAlert, deleteAlert]);
 
   const addBirthday = async (newBirthday) => {
     try {
@@ -41,7 +45,7 @@ const Profile = () => {
         newBirthday
       );
       setData((prevData) => [...prevData, response.data]);
-      setAlert(true);
+      setAddAlert(true);
     } catch (error) {
       console.error(error.message);
     }
@@ -62,6 +66,7 @@ const Profile = () => {
       });
 
       setData(newData);
+      setEditAlert(true);
     } catch (error) {
       console.error(error.message);
     }
@@ -75,6 +80,7 @@ const Profile = () => {
           return birthday.id !== id;
         })
       );
+      setDeleteAlert(true);
     } catch (error) {
       console.error(error.message);
     }
@@ -95,11 +101,27 @@ const Profile = () => {
 
   return (
     <Container maxWidth="xl" sx={{ pt: "25px", pb: "100px" }}>
-      {alert && (
+      {addAlert && (
         <CommonAlert
           content="Great! New birthday was successfully added to your list."
           icon={<CheckIcon fontSize="inherit" />}
           severity="success"
+          sx={{ maxWidth: "800px", mx: "auto" }}
+        />
+      )}
+      {editAlert && (
+        <CommonAlert
+          content="Done! Birthday was successfully updated."
+          icon={<CheckIcon fontSize="inherit" />}
+          severity="info"
+          sx={{ maxWidth: "800px", mx: "auto" }}
+        />
+      )}
+      {deleteAlert && (
+        <CommonAlert
+          content="Done! Birthday was successfully deleted."
+          icon={<CheckIcon fontSize="inherit" />}
+          severity="warning"
           sx={{ maxWidth: "800px", mx: "auto" }}
         />
       )}
