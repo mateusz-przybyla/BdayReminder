@@ -11,23 +11,8 @@ html {
 
 body {
   background: #eee;
-  padding: 0 16px;
   min-height: 100%;
   position: relative;
-}
-
-footer {
-  position: absolute;
-  text-align: center;
-  bottom: 0;
-  height: 2.5rem;
-  width: 100%;
-  padding: 0 16px;
-  margin: auto -16px;
-}
-
-footer p {
-  color: #ccc;
 }
 
 .logo {
