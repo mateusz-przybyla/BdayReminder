@@ -41,7 +41,7 @@ const AddBdayForm = (props) => {
   const addFormStyle = {
     position: "relative",
     maxWidth: "480px",
-    margin: "30px auto 30px auto",
+    margin: "0px auto 30px auto",
     background: "#fff",
     padding: "25px",
     borderRadius: "7px",
@@ -80,6 +80,7 @@ const AddBdayForm = (props) => {
         onChange={handleChange}
         onClick={expandForm}
         required
+        size={isExpanded ? "normal" : "small"}
       />
       {isExpanded && (
         <>
@@ -112,7 +113,7 @@ const AddBdayForm = (props) => {
             name="comment"
             onChange={handleChange}
             value={itemInput.comment}
-            rows={isExpanded ? 3 : 1}
+            rows={3}
           />
         </>
       )}

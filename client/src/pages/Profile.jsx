@@ -100,7 +100,7 @@ const Profile = () => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ pt: "25px", pb: "100px" }}>
+    <Container maxWidth="xl" sx={{ mt: "100px", pb: "100px" }}>
       {addAlert && (
         <CommonAlert
           content="Great! New birthday was successfully added to your list."

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import NavBar from "./components/NavBar";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -11,7 +11,7 @@ const isAuthenticated = true;
 const PublicRoutes = () => {
   return (
     <>
-      <NavBar />
+      <Header isAuthenticated={isAuthenticated} />
       <Routes>
         <Route path="login" element={<Login />} />
 
@@ -25,7 +25,7 @@ const PublicRoutes = () => {
 const PrivateRoutes = () => {
   return (
     <>
-      <NavBar />
+      <Header isAuthenticated={isAuthenticated} />
       <Routes>
         <Route path="home" element={<Home />} />
         <Route path="profile" element={<Profile />} />
