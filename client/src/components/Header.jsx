@@ -113,7 +113,11 @@ const Nav = (props) => {
 
 const Header = (props) => {
   return (
-    <AppBar component="nav" sx={{ background: "#f5ba13" }}>
+    <AppBar
+      component="nav"
+      sx={{ background: "#f5ba13" }}
+      position={props.isAuthenticated ? "fixed" : "static"}
+    >
       <Container>
         <Toolbar>
           <Stack
@@ -125,7 +129,7 @@ const Header = (props) => {
             <Box sx={{ display: "flex", gap: 1 }}>
               <CakeIcon fontSize="medium" sx={{ m: "auto" }} />
               <Typography
-                variant="h6"
+                variant="h5"
                 component="div"
                 sx={{
                   display: { xs: "none", sm: "inherit" },

@@ -9,12 +9,14 @@ const Footer = () => {
     textAlign: "center",
     padding: "15px 0",
     width: "100%",
-    background: "#ccc",
+    background: "#758694",
   };
 
   return (
     <Box sx={footerStyle}>
-      <Typography sx={{ color: "#eee" }}>Copyright ⓒ {currentYear}</Typography>
+      <Typography sx={{ color: "#ffffff" }}>
+        Copyright ⓒ {currentYear}
+      </Typography>
     </Box>
   );
 };

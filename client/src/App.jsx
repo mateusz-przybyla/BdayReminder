@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 
-const isAuthenticated = true;
+const isAuthenticated = false;
 
 const PublicRoutes = () => {
   return (
