@@ -3,6 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import pg from "pg";
 import bcrypt from "bcrypt";
+import env from "dotenv";
 
 //Password-related imports
 import session from "express-session";
@@ -10,21 +11,28 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 
 const app = express();
-const port = 8080;
-const corsOptions = {
-  origin: "http://localhost:5173",
-  optionsSuccessStatus: 200,
-  credentials: true,
-};
+const port = process.env.PORT || 8080;
+
+env.config({ path: "../.env" });
+
+//conditional statement to enable CORS based on the environment
+if (process.env.NODE_ENV === "development") {
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      optionsSuccessStatus: 200,
+      credentials: true,
+    })
+  );
+}
 const saltRounds = 10;
 
-app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(
   session({
-    secret: "TOPSECRET",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -37,11 +45,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "bday-reminder",
-  password: "",
-  port: 5432,
+  user: process.env.PG_USER,
+  host: process.env.PG_HOST,
+  database: process.env.PG_DATABASE,
+  password: process.env.PG_PASSWORD,
+  port: process.env.PG_PORT,
 });
 db.connect();
 
