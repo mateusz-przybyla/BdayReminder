@@ -46,6 +46,8 @@ Backend (REST API):
 - include Axios for making HTTP requests to the API and handle responses,
 - Axios requests using the promise syntax with async/await methods,
 - include pg for working with localhost PostgreSQL database,
+- include cors for (...),
+- Passport Strategy for authenticating with username and password.
 
 Frontend:
 
@@ -70,3 +72,4 @@ Frontend:
 - [Single Page Application](https://kissdigital.com/pl/blog/single-page-application-jak-dziala-spa-i-czym-sie-rozni-od-mpa)
 - [How to Configure Proxy in Vite?](https://www.geeksforgeeks.org/how-to-configure-proxy-in-vite/)
 - [How to Configure CORS in Node.js With Express](https://dev.to/speaklouder/how-to-configure-cors-in-nodejs-with-express-11h)
+- [Passport strategy for authenticating with a username and password.](https://www.passportjs.org/packages/passport-local/)

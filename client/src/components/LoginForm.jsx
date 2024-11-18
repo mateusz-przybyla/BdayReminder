@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Box, TextField, Fab, Typography, Divider, Link } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { loginUser } from "../services/auth";
 
-const LoginForm = ({ setToken }) => {
+import CommonAlert from "../components/Common/CommonAlert";
+
+import { loginUser, registerUser } from "../services/auth";
+
+const LoginForm = ({ setLoggedIn }) => {
   const [unregistered, setAsUnregistered] = useState(false);
-  const [itemInput, setItemInput] = useState({
-    email: "",
+  const [credentials, setCredentials] = useState({
+    username: "",
     password: "",
   });
+  const [existEmailAlert, setExistEmailAlert] = useState({
+    status: false,
+    message: "",
+  });
+  const [loginAlert, setLoginAlert] = useState({
+    status: false,
+    message: "",
+  });
+  const navigate = useNavigate();
 
   const toggleLoginRegister = () =>
     unregistered ? setAsUnregistered(false) : setAsUnregistered(true);
@@ -16,7 +30,7 @@ const LoginForm = ({ setToken }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    setItemInput((prevValue) => {
+    setCredentials((prevValue) => {
       return {
         ...prevValue,
         [name]: value,
@@ -24,10 +38,50 @@ const LoginForm = ({ setToken }) => {
     });
   };
 
-  const handleSubmit = async (event) => {
+  useEffect(() => {
+    if (existEmailAlert.status || loginAlert.status) {
+      setTimeout(() => {
+        setExistEmailAlert({ status: false, message: "" });
+        setLoginAlert({ status: false, message: "" });
+      }, 2000);
+    }
+  }, [existEmailAlert, loginAlert]);
+
+  const handleRegisterSubmit = async (event) => {
     event.preventDefault();
-    const token = await loginUser(itemInput);
-    setToken(token.data);
+
+    const response = await registerUser(credentials);
+
+    if (response.data.error) {
+      setExistEmailAlert({ status: true, message: response.data.error });
+      console.log(response.data.error);
+    } else {
+      console.log("LoginForm registered user: ", response.data);
+      setLoggedIn(true);
+    }
+  };
+
+  const handleLoginSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await loginUser(credentials);
+
+    if (response.status === 401 || response.status === 400) {
+      console.log(
+        "LoginForm catch error: ",
+        response.response.status,
+        response.response.statusText
+      );
+      setLoginAlert({ status: true, message: response.response.statusText });
+    } else {
+      console.log(
+        "LoginForm logged in user info: ",
+        response.data.id,
+        response.data.username
+      );
+      setLoggedIn(true);
+      navigate("/home");
+    }
   };
 
   const loginFormStyle = {
@@ -54,19 +108,40 @@ const LoginForm = ({ setToken }) => {
       component="form"
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit}
+      onSubmit={unregistered ? handleRegisterSubmit : handleLoginSubmit}
     >
       <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>
         {unregistered ? "Sign up" : "Sign In"}
       </Typography>
       <Divider sx={{ my: 2 }} />
+
+      {existEmailAlert.status && (
+        <CommonAlert
+          content={existEmailAlert.message}
+          severity="info"
+          sx={{
+            my: 2,
+          }}
+        />
+      )}
+
+      {loginAlert.status && (
+        <CommonAlert
+          content={loginAlert.message}
+          severity="error"
+          sx={{
+            my: 2,
+          }}
+        />
+      )}
+
       <TextField
         label="email"
         type="email"
         margin="dense"
         fullWidth
-        name="email"
-        value={itemInput.email}
+        name="username"
+        value={credentials.username}
         onChange={handleChange}
         required
       ></TextField>
@@ -76,22 +151,10 @@ const LoginForm = ({ setToken }) => {
         margin="dense"
         fullWidth
         name="password"
-        value={itemInput.password}
+        value={credentials.password}
         onChange={handleChange}
         required
       ></TextField>
-      {unregistered && (
-        <TextField
-          label="confirm password"
-          type="password"
-          margin="dense"
-          fullWidth
-          name="confirmedPassword"
-          value=""
-          onChange={handleChange}
-          required
-        ></TextField>
-      )}
 
       <Typography sx={{ fontSize: "13px", mt: 2, color: "#758694" }}>
         {unregistered ? "Already have an account? " : "New to Bday Reminder? "}

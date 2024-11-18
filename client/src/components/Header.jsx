@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import CakeIcon from "@mui/icons-material/Cake";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,6 +17,13 @@ import {
 } from "@mui/material";
 
 const NavList = (props) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    props.handleLogout();
+    navigate("/login");
+  };
+
   return (
     <Stack
       overflow="auto"
@@ -28,28 +37,31 @@ const NavList = (props) => {
       {props.isAuthenticated && (
         <>
           <Link
-            href="/home"
+            onClick={() => navigate("/home")}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             Home
           </Link>
           <Link
-            href="/profile"
+            onClick={() => navigate("/profile")}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             Profile
           </Link>
           <Link
-            href="/logout"
+            onClick={handleClick}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             Logout
@@ -98,10 +110,14 @@ const Nav = (props) => {
             <CloseIcon sx={{ color: "#f5ba13" }} />
           </Button>
         </Box>
-        <NavList isAuthenticated={props.isAuthenticated} />
+        <NavList
+          isAuthenticated={props.isAuthenticated}
+          handleLogout={props.handleLogout}
+        />
       </Drawer>
       <NavList
         isAuthenticated={props.isAuthenticated}
+        handleLogout={props.handleLogout}
         sx={{
           display: { xs: "none", sm: "inherit" },
         }}
@@ -112,11 +128,7 @@ const Nav = (props) => {
 
 const Header = (props) => {
   return (
-    <AppBar
-      component="header"
-      sx={{ background: "#f5ba13" }}
-      position={props.isAuthenticated ? "fixed" : "static"}
-    >
+    <AppBar component="header" sx={{ background: "#f5ba13" }} position="fixed">
       <Container>
         <Toolbar>
           <Stack
@@ -137,7 +149,10 @@ const Header = (props) => {
                 Bday Reminder
               </Typography>
             </Box>
-            <Nav isAuthenticated={props.isAuthenticated} />
+            <Nav
+              isAuthenticated={props.isAuthenticated}
+              handleLogout={props.handleLogout}
+            />
           </Stack>
         </Toolbar>
       </Container>
