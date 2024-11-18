@@ -8,20 +8,14 @@ import CommonAlert from "../components/Common/CommonAlert";
 
 import { loginUser, registerUser } from "../services/auth";
 
-const LoginForm = ({ setLoggedIn }) => {
+const LoginForm = (props) => {
   const [unregistered, setAsUnregistered] = useState(false);
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
-  const [existEmailAlert, setExistEmailAlert] = useState({
-    status: false,
-    message: "",
-  });
-  const [loginAlert, setLoginAlert] = useState({
-    status: false,
-    message: "",
-  });
+  const [message, setMessage] = useState("");
+
   const navigate = useNavigate();
 
   const toggleLoginRegister = () =>
@@ -39,13 +33,12 @@ const LoginForm = ({ setLoggedIn }) => {
   };
 
   useEffect(() => {
-    if (existEmailAlert.status || loginAlert.status) {
+    if (message) {
       setTimeout(() => {
-        setExistEmailAlert({ status: false, message: "" });
-        setLoginAlert({ status: false, message: "" });
+        setMessage("");
       }, 2000);
     }
-  }, [existEmailAlert, loginAlert]);
+  }, [message]);
 
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
@@ -53,11 +46,10 @@ const LoginForm = ({ setLoggedIn }) => {
     const response = await registerUser(credentials);
 
     if (response.data.error) {
-      setExistEmailAlert({ status: true, message: response.data.error });
-      console.log(response.data.error);
+      setMessage(response.data.error);
     } else {
       console.log("LoginForm registered user: ", response.data);
-      setLoggedIn(true);
+      props.setLoggedIn(true);
     }
   };
 
@@ -72,14 +64,14 @@ const LoginForm = ({ setLoggedIn }) => {
         response.response.status,
         response.response.statusText
       );
-      setLoginAlert({ status: true, message: response.response.statusText });
+      setMessage(response.response.statusText);
     } else {
       console.log(
         "LoginForm logged in user info: ",
         response.data.id,
         response.data.username
       );
-      setLoggedIn(true);
+      props.setLoggedIn(true);
       navigate("/home");
     }
   };
@@ -115,19 +107,9 @@ const LoginForm = ({ setLoggedIn }) => {
       </Typography>
       <Divider sx={{ my: 2 }} />
 
-      {existEmailAlert.status && (
+      {message && (
         <CommonAlert
-          content={existEmailAlert.message}
-          severity="info"
-          sx={{
-            my: 2,
-          }}
-        />
-      )}
-
-      {loginAlert.status && (
-        <CommonAlert
-          content={loginAlert.message}
+          content={message}
           severity="error"
           sx={{
             my: 2,
