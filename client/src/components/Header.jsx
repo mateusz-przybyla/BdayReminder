@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import CakeIcon from "@mui/icons-material/Cake";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,6 +17,13 @@ import {
 } from "@mui/material";
 
 const NavList = (props) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    props.handleLogout();
+    navigate("/login");
+  };
+
   return (
     <Stack
       overflow="auto"
@@ -25,37 +34,39 @@ const NavList = (props) => {
       fontSize={{ xs: "22px", sm: "initial" }}
       sx={props.sx}
     >
-      {props.isAuthenticated ? (
+      {props.isAuthenticated && (
         <>
           <Link
-            href="/home"
+            onClick={() => navigate("/home")}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             Home
           </Link>
           <Link
-            href="/profile"
+            onClick={() => navigate("/profile")}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             Profile
           </Link>
+          <Link
+            onClick={handleClick}
+            sx={{
+              color: { xs: "#f5ba13", sm: "white" },
+              textDecoration: "none",
+              cursor: "pointer",
+            }}
+          >
+            Logout
+          </Link>
         </>
-      ) : (
-        <Link
-          href="/login"
-          sx={{
-            color: { xs: "#f5ba13", sm: "white" },
-            textDecoration: "none",
-          }}
-        >
-          Login
-        </Link>
       )}
     </Stack>
   );
@@ -99,10 +110,14 @@ const Nav = (props) => {
             <CloseIcon sx={{ color: "#f5ba13" }} />
           </Button>
         </Box>
-        <NavList isAuthenticated={props.isAuthenticated} />
+        <NavList
+          isAuthenticated={props.isAuthenticated}
+          handleLogout={props.handleLogout}
+        />
       </Drawer>
       <NavList
         isAuthenticated={props.isAuthenticated}
+        handleLogout={props.handleLogout}
         sx={{
           display: { xs: "none", sm: "inherit" },
         }}
@@ -113,7 +128,7 @@ const Nav = (props) => {
 
 const Header = (props) => {
   return (
-    <AppBar component="nav" sx={{ background: "#f5ba13" }}>
+    <AppBar component="header" sx={{ background: "#f5ba13" }} position="fixed">
       <Container>
         <Toolbar>
           <Stack
@@ -125,8 +140,7 @@ const Header = (props) => {
             <Box sx={{ display: "flex", gap: 1 }}>
               <CakeIcon fontSize="medium" sx={{ m: "auto" }} />
               <Typography
-                variant="h6"
-                component="div"
+                variant="h5"
                 sx={{
                   display: { xs: "none", sm: "inherit" },
                   fontFamily: "McLaren, cursive",
@@ -135,7 +149,10 @@ const Header = (props) => {
                 Bday Reminder
               </Typography>
             </Box>
-            <Nav isAuthenticated={props.isAuthenticated} />
+            <Nav
+              isAuthenticated={props.isAuthenticated}
+              handleLogout={props.handleLogout}
+            />
           </Stack>
         </Toolbar>
       </Container>

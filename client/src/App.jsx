@@ -1,53 +1,68 @@
 import React from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  Outlet,
+} from "react-router-dom";
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Login from "./pages/Login";
+
+import Authentication from "./pages/Authentication";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 
-const isAuthenticated = true;
-
-const PublicRoutes = () => {
-  return (
-    <>
-      <Header isAuthenticated={isAuthenticated} />
-      <Routes>
-        <Route path="login" element={<Login />} />
-
-        <Route path="/*" element={<Navigate to="/login" replace />} />
-      </Routes>
-      <Footer />
-    </>
-  );
-};
-
-const PrivateRoutes = () => {
-  return (
-    <>
-      <Header isAuthenticated={isAuthenticated} />
-      <Routes>
-        <Route path="home" element={<Home />} />
-        <Route path="profile" element={<Profile />} />
-
-        <Route path="/*" element={<Navigate to="/profile" replace />} />
-      </Routes>
-      <Footer />
-    </>
-  );
-};
+import useAuth from "./hooks/useAuth";
 
 const App = () => {
+  const user = useAuth();
+
   return (
-    <BrowserRouter>
-      <Routes>
-        {isAuthenticated ? (
-          <Route path="/*" element={<PrivateRoutes />} />
-        ) : (
-          <Route path="/*" element={<PublicRoutes />} />
-        )}
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            element={
+              <>
+                <Header
+                  isAuthenticated={user.loggedIn}
+                  handleLogout={user.logout}
+                />
+                <Outlet />
+                <Footer />
+              </>
+            }
+          >
+            <Route
+              path="/login"
+              element={
+                user.loggedIn ? (
+                  <Navigate replace to="/home" />
+                ) : (
+                  <Authentication setLoggedIn={user.setLoggedIn} />
+                )
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                !user.loggedIn ? <Navigate replace to="/login" /> : <Home />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                !user.loggedIn ? <Navigate replace to="/login" /> : <Profile />
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 };
 
