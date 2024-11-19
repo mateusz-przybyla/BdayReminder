@@ -7,7 +7,7 @@ const NotFound = () => {
   const navigate = useNavigate();
 
   return (
-    <Container sx={{ pt: 20, textAlign: "center" }}>
+    <Container sx={{ pt: 20, pb: "100px", textAlign: "center" }}>
       <Typography>
         Nothing to see here... This is not the route you are looking for!
       </Typography>
