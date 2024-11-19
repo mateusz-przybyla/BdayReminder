@@ -5,7 +5,7 @@ import pg from "pg";
 import bcrypt from "bcrypt";
 import env from "dotenv";
 
-//Password-related imports
+//password-related imports
 import session from "express-session";
 import passport from "passport";
 import { Strategy } from "passport-local";
@@ -154,41 +154,6 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
-
-/*
-//Basic auth with username and password
-
-app.post("/api/login", async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  try {
-    const result = await db.query("SELECT * FROM users WHERE email = $1", [
-      email,
-    ]);
-    if (result.rows.length > 0) {
-      const user = result.rows[0];
-      const storedHashedPassword = user.password;
-
-      bcrypt.compare(password, storedHashedPassword, (err, result) => {
-        if (err) {
-          console.error("Error comparing passwords:", err);
-        } else {
-          if (result) {
-            res.json({ user: user});
-          } else {
-            res.json({ error: "Invalid email or password." });
-          }
-        }
-      });
-    } else {
-      res.json({ error: "Invalid email or password." });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-});
-*/
 
 // -- Birthdays Section API --
 
