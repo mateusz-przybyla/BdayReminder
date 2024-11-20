@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -11,32 +11,19 @@ import {
   Chip,
 } from "@mui/material";
 
-import { getTodayNameday } from "../services/nameday";
 import useAuth from "../hooks/useAuth";
 import useTime from "../hooks/useTime";
+import useNameday from "../hooks/useNameday";
+
 import { currentDay, currentMonth, currentYear } from "../utils/date&time";
 
 const Home = () => {
-  const [todayNameday, setTodayNameday] = useState("No Name Day today.");
-
   const navigate = useNavigate();
   const user = useAuth();
   const currentTime = useTime();
+  const namedays = useNameday();
 
   const birthdaysToday = 3;
-
-  useEffect(() => {
-    async function fetchData() {
-      const countryCode = "pl";
-      const timezone = "";
-
-      const response = await getTodayNameday(countryCode, timezone);
-      const namedays = response.data.nameday.pl;
-
-      namedays && setTodayNameday(namedays);
-    }
-    fetchData();
-  }, []);
 
   return (
     <Container sx={{ pt: 20, pb: "100px" }}>
@@ -60,7 +47,9 @@ const Home = () => {
               size="large"
             />
           </Divider>
-          <Typography sx={{ fontWeight: 600 }}>{todayNameday}</Typography>
+          <Typography sx={{ fontWeight: 600 }}>
+            {namedays.todayNameday}
+          </Typography>
           <Divider>
             <Chip
               sx={{ my: 3, fontSize: 16, color: "#374954" }}
