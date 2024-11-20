@@ -125,7 +125,7 @@ const LoginForm = (props) => {
     <Box
       sx={loginFormStyle}
       component="form"
-      autoComplete="off"
+      autoComplete="on"
       onSubmit={unregistered ? handleRegisterSubmit : handleLoginSubmit}
     >
       <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>

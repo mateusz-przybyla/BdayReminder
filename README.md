@@ -73,3 +73,4 @@ Frontend:
 - [How to Configure Proxy in Vite?](https://www.geeksforgeeks.org/how-to-configure-proxy-in-vite/)
 - [How to Configure CORS in Node.js With Express](https://dev.to/speaklouder/how-to-configure-cors-in-nodejs-with-express-11h)
 - [Passport strategy for authenticating with a username and password.](https://www.passportjs.org/packages/passport-local/)
+- [Name Day API.](https://nameday.abalin.net/docs/)
