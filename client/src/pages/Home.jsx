@@ -8,32 +8,22 @@ import {
   CardContent,
   Divider,
   Link,
+  Chip,
 } from "@mui/material";
 
 import { getTodayNameday } from "../services/nameday";
 import useAuth from "../hooks/useAuth";
-import {
-  currentTime,
-  currentDay,
-  currentMonth,
-  currentYear,
-} from "../utils/currentDate";
+import useTime from "../hooks/useTime";
+import { currentDay, currentMonth, currentYear } from "../utils/date&time";
 
 const Home = () => {
   const [todayNameday, setTodayNameday] = useState("No Name Day today.");
-  const [time, setTime] = useState(currentTime);
 
   const navigate = useNavigate();
   const user = useAuth();
+  const currentTime = useTime();
 
   const birthdaysToday = 3;
-
-  setInterval(updateTime, 1000);
-
-  function updateTime() {
-    const newTime = new Date().toLocaleTimeString();
-    setTime(newTime);
-  }
 
   useEffect(() => {
     async function fetchData() {
@@ -60,23 +50,26 @@ const Home = () => {
             Hello {user.username}
           </Typography>
           <Divider sx={{ my: 2 }} />
-
-          <Typography sx={{ color: "#374954" }}>
-            {currentDay}-{currentMonth}-{currentYear}, {time}
-          </Typography>
-          <br />
-          <Typography sx={{ fontWeight: 700, color: "#374954" }}>
-            --- Today's Namedays ---
-          </Typography>
-          <br />
-          <Typography>{todayNameday}</Typography>
-          <br />
-          <Typography sx={{ fontWeight: 700, color: "#374954" }}>
-            --- Today's Birthdays ---
-          </Typography>
-          <br />
           <Typography>
-            {birthdaysToday} birthdays on your list. See more on{" "}
+            {currentDay}-{currentMonth}-{currentYear}, {currentTime.time}
+          </Typography>
+          <Divider>
+            <Chip
+              sx={{ my: 3, fontSize: 16, color: "#374954" }}
+              label="Today's Namedays"
+              size="large"
+            />
+          </Divider>
+          <Typography sx={{ fontWeight: 600 }}>{todayNameday}</Typography>
+          <Divider>
+            <Chip
+              sx={{ my: 3, fontSize: 16, color: "#374954" }}
+              label="Today's Birthdays"
+              size="large"
+            />
+          </Divider>
+          <Typography sx={{ fontWeight: 600 }}>
+            {birthdaysToday}/100 birthdays on your list. See more on{" "}
             <Link
               onClick={() => navigate("/profile")}
               sx={{ cursor: "pointer", fontWeight: 700 }}

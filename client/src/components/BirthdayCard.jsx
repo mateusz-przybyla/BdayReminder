@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import EditModal from "./EditModal";
-import { currentDay, currentMonth, currentYear } from "../utils/currentDate";
+import { currentDay, currentMonth, currentYear } from "../utils/date&time";
 
 const BirthdayCard = (props) => {
   const [isExpanded, setExpanded] = useState(false);

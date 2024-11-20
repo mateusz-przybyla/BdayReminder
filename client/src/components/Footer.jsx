@@ -3,7 +3,7 @@ import React from "react";
 import { Typography, Box, Link, IconButton } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-import { currentYear } from "../utils/currentDate";
+import { currentYear } from "../utils/date&time";
 
 const Footer = () => {
   const footerStyle = {
