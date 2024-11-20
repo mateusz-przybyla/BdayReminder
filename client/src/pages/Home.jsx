@@ -23,7 +23,8 @@ const Home = () => {
   const currentTime = useTime();
   const namedays = useNameday();
 
-  const birthdaysToday = 3;
+  const todaysBirthday = 3; //to be completed
+  const totalNumberOfBirthdays = 100; //to be completed
 
   return (
     <Container sx={{ pt: 20, pb: "100px" }}>
@@ -57,11 +58,14 @@ const Home = () => {
               size="large"
             />
           </Divider>
-          <Typography sx={{ fontWeight: 600 }}>
-            {birthdaysToday}/100 birthdays on your list. See more on{" "}
+          <Typography sx={{}}>
+            <Typography sx={{ mb: 1, fontWeight: 600 }}>
+              {todaysBirthday}/{totalNumberOfBirthdays}
+            </Typography>
+            Check more info on{" "}
             <Link
               onClick={() => navigate("/profile")}
-              sx={{ cursor: "pointer", fontWeight: 700 }}
+              sx={{ cursor: "pointer" }}
             >
               Profile
             </Link>
