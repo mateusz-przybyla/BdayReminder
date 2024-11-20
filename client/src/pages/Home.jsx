@@ -58,10 +58,10 @@ const Home = () => {
               size="large"
             />
           </Divider>
-          <Typography sx={{}}>
-            <Typography sx={{ mb: 1, fontWeight: 600 }}>
-              {todaysBirthday}/{totalNumberOfBirthdays}
-            </Typography>
+          <Typography sx={{ mb: 1, fontWeight: 600 }}>
+            {todaysBirthday}/{totalNumberOfBirthdays}
+          </Typography>
+          <Typography>
             Check more info on{" "}
             <Link
               onClick={() => navigate("/profile")}

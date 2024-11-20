@@ -17,6 +17,8 @@ import NotFound from "./pages/NotFound";
 
 import useAuth from "./hooks/useAuth";
 
+import "./App.css";
+
 const App = () => {
   const user = useAuth();
 
