@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
 import { Divider, Container, Box, Chip } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+
 import BirthdayCard from "../components/BirthdayCard";
 import AddBdayForm from "../components/AddBdayForm";
 import CommonBarChart from "../components/Common/CommonBarChart";
 import CommonAlert from "../components/Common/CommonAlert";
 import Info from "../components/Info";
+
+import {
+  fetchItems,
+  setItem,
+  editItem,
+  deleteItem,
+} from "../services/birthday";
+
 import months from "../assets/months";
-import "../App.css";
-import CheckIcon from "@mui/icons-material/Check";
 
 const Profile = () => {
   const [data, setData] = useState([]);
@@ -17,15 +26,11 @@ const Profile = () => {
   const [deleteAlert, setDeleteAlert] = useState(false);
 
   useEffect(() => {
-    const fetchBirthday = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/api/data");
-        setData(response.data.list);
-      } catch (error) {
-        console.error(error.message);
-      }
+    const fetchBirthdays = async () => {
+      const response = await fetchItems();
+      setData(response);
     };
-    fetchBirthday();
+    fetchBirthdays();
   }, []);
 
   useEffect(() => {
@@ -39,51 +44,33 @@ const Profile = () => {
   }, [addAlert, editAlert, deleteAlert]);
 
   const addBirthday = async (newBirthday) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/api/data",
-        newBirthday
-      );
-      setData((prevData) => [...prevData, response.data]);
-      setAddAlert(true);
-    } catch (error) {
-      console.error(error.message);
-    }
+    const response = await setItem(newBirthday);
+    setData((prevData) => [...prevData, response]);
+    setAddAlert(true);
   };
 
   const editBirthday = async (updatedBirthday) => {
-    try {
-      const response = await axios.patch(
-        `http://localhost:8080/api/data/${updatedBirthday.id}`,
-        updatedBirthday
-      );
+    const response = await editItem(updatedBirthday, updatedBirthday.id);
 
-      const newData = data.map((item) => {
-        if (item.id === updatedBirthday.id) {
-          return response.data;
-        }
-        return item;
-      });
+    const newData = data.map((item) => {
+      if (item.id === updatedBirthday.id) {
+        return response;
+      }
+      return item;
+    });
 
-      setData(newData);
-      setEditAlert(true);
-    } catch (error) {
-      console.error(error.message);
-    }
+    setData(newData);
+    setEditAlert(true);
   };
 
   const deleteBirthday = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8080/api/data/${id}`);
-      setData(
-        data.filter((birthday) => {
-          return birthday.id !== id;
-        })
-      );
-      setDeleteAlert(true);
-    } catch (error) {
-      console.error(error.message);
-    }
+    await deleteItem(id);
+    setData(
+      data.filter((birthday) => {
+        return birthday.id !== id;
+      })
+    );
+    setDeleteAlert(true);
   };
 
   const calculateBdaysPerMonth = () => {
