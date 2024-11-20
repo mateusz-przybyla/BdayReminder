@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import { Divider, Container, Box, Chip } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
@@ -21,9 +20,7 @@ import months from "../assets/months";
 
 const Profile = () => {
   const [data, setData] = useState([]);
-  const [addAlert, setAddAlert] = useState(false);
-  const [editAlert, setEditAlert] = useState(false);
-  const [deleteAlert, setDeleteAlert] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchBirthdays = async () => {
@@ -34,19 +31,17 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    if (addAlert || editAlert || deleteAlert) {
+    if (message) {
       setTimeout(() => {
-        setAddAlert(false);
-        setEditAlert(false);
-        setDeleteAlert(false);
+        setMessage("");
       }, 2000);
     }
-  }, [addAlert, editAlert, deleteAlert]);
+  }, [message]);
 
   const addBirthday = async (newBirthday) => {
     const response = await setItem(newBirthday);
     setData((prevData) => [...prevData, response]);
-    setAddAlert(true);
+    setMessage("Birthday created successfully!");
   };
 
   const editBirthday = async (updatedBirthday) => {
@@ -60,7 +55,7 @@ const Profile = () => {
     });
 
     setData(newData);
-    setEditAlert(true);
+    setMessage("Birthday updated successfully!");
   };
 
   const deleteBirthday = async (id) => {
@@ -70,7 +65,7 @@ const Profile = () => {
         return birthday.id !== id;
       })
     );
-    setDeleteAlert(true);
+    setMessage("Birthday deleted successfully!");
   };
 
   const calculateBdaysPerMonth = () => {
@@ -88,39 +83,11 @@ const Profile = () => {
 
   return (
     <Container sx={{ mt: "65px", pt: 3, pb: "100px" }}>
-      {addAlert && (
+      {message && (
         <CommonAlert
-          content="Great! New birthday was successfully added to your list."
+          content={message}
           icon={<CheckIcon fontSize="inherit" />}
           severity="success"
-          sx={{
-            maxWidth: "800px",
-            position: "fixed",
-            bottom: "50px",
-            left: "25px",
-            zIndex: 99,
-          }}
-        />
-      )}
-      {editAlert && (
-        <CommonAlert
-          content="Done! Birthday was successfully updated."
-          icon={<CheckIcon fontSize="inherit" />}
-          severity="info"
-          sx={{
-            maxWidth: "800px",
-            position: "fixed",
-            bottom: "50px",
-            left: "25px",
-            zIndex: 99,
-          }}
-        />
-      )}
-      {deleteAlert && (
-        <CommonAlert
-          content="Done! Birthday was successfully deleted."
-          icon={<CheckIcon fontSize="inherit" />}
-          severity="warning"
           sx={{
             maxWidth: "800px",
             position: "fixed",
