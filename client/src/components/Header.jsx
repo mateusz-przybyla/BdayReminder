@@ -34,7 +34,7 @@ const NavList = (props) => {
           <Link
             onClick={() => {
               navigate("/home");
-              props.onClose();
+              props.handleClose();
             }}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
@@ -47,7 +47,7 @@ const NavList = (props) => {
           <Link
             onClick={() => {
               navigate("/profile");
-              props.onClose();
+              props.handleClose();
             }}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
@@ -61,7 +61,7 @@ const NavList = (props) => {
             onClick={() => {
               props.handleLogout();
               navigate("/login");
-              props.onClose();
+              props.handleClose();
             }}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
@@ -121,7 +121,7 @@ const Nav = (props) => {
         <NavList
           isAuthenticated={props.isAuthenticated}
           handleLogout={props.handleLogout}
-          onClose={toggleDrawer(false)}
+          handleClose={toggleDrawer(false)}
         />
       </Drawer>
       <NavList
