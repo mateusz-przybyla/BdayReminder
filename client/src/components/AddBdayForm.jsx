@@ -90,7 +90,7 @@ const AddBdayForm = (props) => {
           content={alert}
           severity="error"
           sx={{
-            mb: 2,
+            mb: 1,
           }}
         />
       )}
