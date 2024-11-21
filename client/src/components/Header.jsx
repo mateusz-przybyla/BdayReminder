@@ -19,11 +19,6 @@ import {
 const NavList = (props) => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    props.handleLogout();
-    navigate("/login");
-  };
-
   return (
     <Stack
       overflow="auto"
@@ -37,7 +32,10 @@ const NavList = (props) => {
       {props.isAuthenticated && (
         <>
           <Link
-            onClick={() => navigate("/home")}
+            onClick={() => {
+              navigate("/home");
+              props.onClose();
+            }}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
               textDecoration: "none",
@@ -47,7 +45,10 @@ const NavList = (props) => {
             Home
           </Link>
           <Link
-            onClick={() => navigate("/profile")}
+            onClick={() => {
+              navigate("/profile");
+              props.onClose();
+            }}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
               textDecoration: "none",
@@ -57,7 +58,11 @@ const NavList = (props) => {
             Profile
           </Link>
           <Link
-            onClick={handleClick}
+            onClick={() => {
+              props.handleLogout();
+              navigate("/login");
+              props.onClose();
+            }}
             sx={{
               color: { xs: "#f5ba13", sm: "white" },
               textDecoration: "none",
@@ -80,13 +85,16 @@ const Nav = (props) => {
 
   return (
     <>
-      <Button
-        variant="text"
-        onClick={toggleDrawer(true)}
-        sx={{ color: "white", display: { xs: "flex", sm: "none" } }}
-      >
-        <MenuIcon />
-      </Button>
+      {props.isAuthenticated && (
+        <Button
+          variant="text"
+          onClick={toggleDrawer(true)}
+          sx={{ color: "white", display: { xs: "flex", sm: "none" } }}
+        >
+          <MenuIcon />
+        </Button>
+      )}
+
       <Drawer
         open={open}
         onClose={toggleDrawer(false)}
@@ -113,6 +121,7 @@ const Nav = (props) => {
         <NavList
           isAuthenticated={props.isAuthenticated}
           handleLogout={props.handleLogout}
+          onClose={toggleDrawer(false)}
         />
       </Drawer>
       <NavList
