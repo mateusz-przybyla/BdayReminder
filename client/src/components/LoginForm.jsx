@@ -77,8 +77,8 @@ const LoginForm = (props) => {
         password: password.value,
       });
 
-      if (response.data.error) {
-        setMessageAPI(response.data.error);
+      if (response.status === 403) {
+        setMessageAPI(response.response.data.error);
       } else {
         props.setLoggedIn(true);
       }

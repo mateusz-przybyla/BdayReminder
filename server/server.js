@@ -84,7 +84,7 @@ app.post("/api/register", async (req, res) => {
     ]);
 
     if (checkResult.rows.length > 0) {
-      res.json({ error: "Email already exists. Try logging in." });
+      res.status(403).json({ error: "Email already exists. Try logging in." });
     } else {
       bcrypt.hash(password, saltRounds, async (err, hash) => {
         if (err) {
