@@ -71,6 +71,22 @@ const LoginForm = (props) => {
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
 
+    if (!username.value || !password.value) {
+      if (!username.value) {
+        setUsername({
+          value: event.target.value,
+          error: true,
+        });
+      }
+      if (!password.value) {
+        setPassword({
+          value: event.target.value,
+          error: true,
+        });
+      }
+      return;
+    }
+
     if (!username.error && !password.error) {
       const response = await registerUser({
         username: username.value,
@@ -87,6 +103,22 @@ const LoginForm = (props) => {
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
+
+    if (!username.value || !password.value) {
+      if (!username.value) {
+        setUsername({
+          value: event.target.value,
+          error: true,
+        });
+      }
+      if (!password.value) {
+        setPassword({
+          value: event.target.value,
+          error: true,
+        });
+      }
+      return;
+    }
 
     if (!username.error && !password.error) {
       const response = await loginUser({
@@ -125,6 +157,7 @@ const LoginForm = (props) => {
     <Box
       sx={loginFormStyle}
       component="form"
+      noValidate
       autoComplete="on"
       onSubmit={unregistered ? handleRegisterSubmit : handleLoginSubmit}
     >
@@ -147,7 +180,6 @@ const LoginForm = (props) => {
         label="username"
         name="username"
         type="email"
-        required
         onChange={handleUsernameChange}
         error={username.error}
         helperText={username.error && "Invalid email address."}
@@ -158,7 +190,6 @@ const LoginForm = (props) => {
         label="password"
         name="password"
         type="password"
-        required
         onChange={handlePasswordChange}
         error={password.error}
         helperText={
