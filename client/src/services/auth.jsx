@@ -5,8 +5,8 @@ const registerUser = async (credentials) => {
   try {
     return await axios.post("/api/register", credentials);
   } catch (error) {
-    console.error(error.message);
-    //dokonczyc
+    console.log(error.message);
+    return error;
   }
 };
 
