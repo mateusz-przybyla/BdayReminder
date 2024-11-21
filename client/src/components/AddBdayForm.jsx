@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+
+import { Fab, Zoom, Box, TextField } from "@mui/material";
+
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Fab, Zoom, Box, TextField } from "@mui/material";
+
+import CommonAlert from "./Common/CommonAlert";
 
 const AddBdayForm = (props) => {
   const [itemInput, setItemInput] = useState({
@@ -10,10 +14,14 @@ const AddBdayForm = (props) => {
     birthdate: "",
     comment: "",
   });
+  const [alert, setAlert] = useState("");
   const [isExpanded, setExpanded] = useState(false);
 
   const expandForm = () => setExpanded(true);
-  const closeForm = () => setExpanded(false);
+  const closeForm = () => {
+    setExpanded(false);
+    setAlert("");
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -27,6 +35,13 @@ const AddBdayForm = (props) => {
   };
 
   const submitBirthday = (event) => {
+    event.preventDefault();
+
+    if (!itemInput.firstName || !itemInput.lastName || !itemInput.birthdate) {
+      setAlert("first name, last name, birthdate fields cannot be empty!");
+      return;
+    }
+
     props.onAdd(itemInput);
     setItemInput({
       firstName: "",
@@ -34,7 +49,7 @@ const AddBdayForm = (props) => {
       birthdate: "",
       comment: "",
     });
-    event.preventDefault();
+    setAlert("");
     closeForm();
   };
 
@@ -70,50 +85,57 @@ const AddBdayForm = (props) => {
       autoComplete="off"
       onSubmit={submitBirthday}
     >
+      {alert && (
+        <CommonAlert
+          content={alert}
+          severity="error"
+          sx={{
+            mb: 1,
+          }}
+        />
+      )}
+
       <TextField
         label={isExpanded ? "first name" : "add birthday"}
-        type="text"
-        margin="dense"
-        fullWidth
         name="firstName"
+        type="text"
         value={itemInput.firstName}
         onChange={handleChange}
+        margin="dense"
+        fullWidth
         onClick={expandForm}
-        required
         size={isExpanded ? "normal" : "small"}
       />
       {isExpanded && (
         <>
           <TextField
             label="last name"
-            type="text"
-            margin="dense"
-            fullWidth
             name="lastName"
+            type="text"
             value={itemInput.lastName}
             onChange={handleChange}
-            required
+            margin="dense"
+            fullWidth
           />
           <TextField
             label="birthdate"
-            type="date"
-            margin="dense"
-            fullWidth
             name="birthdate"
+            type="date"
             value={itemInput.birthdate}
             onChange={handleChange}
-            required
+            margin="dense"
+            fullWidth
             slotProps={{ inputLabel: { shrink: true } }}
           />
           <TextField
             label="comment"
+            name="comment"
             multiline
+            rows={3}
+            value={itemInput.comment}
+            onChange={handleChange}
             margin="dense"
             fullWidth
-            name="comment"
-            onChange={handleChange}
-            value={itemInput.comment}
-            rows={3}
           />
         </>
       )}

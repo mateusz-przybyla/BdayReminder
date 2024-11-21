@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import EditIcon from "@mui/icons-material/Edit";
+
 import { Modal, Fab } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+
 import EditBdayForm from "./EditBdayForm";
 
 const EditModal = (props) => {

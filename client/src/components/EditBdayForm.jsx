@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+
+import { Fab, Typography, Box, TextField, Divider } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Fab, Typography, Box, TextField, Divider } from "@mui/material";
+
+import CommonAlert from "./Common/CommonAlert";
 
 const EditBdayForm = (props) => {
   const [itemInput, setItemInput] = useState({
@@ -11,6 +14,7 @@ const EditBdayForm = (props) => {
     birthdate: props.birthday.birthdate,
     comment: props.birthday.comment,
   });
+  const [alert, setAlert] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -25,6 +29,12 @@ const EditBdayForm = (props) => {
 
   const sumbitUpdatedBirthday = (event) => {
     event.preventDefault();
+
+    if (!itemInput.firstName || !itemInput.lastName || !itemInput.birthdate) {
+      setAlert("first name, last name, birthdate fields cannot be empty!");
+      return;
+    }
+
     props.onEdit(itemInput);
     props.handleClose();
   };
@@ -65,44 +75,51 @@ const EditBdayForm = (props) => {
         Edit birthday data:
       </Typography>
       <Divider sx={{ my: 2 }} />
+      {alert && (
+        <CommonAlert
+          content={alert}
+          severity="error"
+          sx={{
+            my: 1,
+          }}
+        />
+      )}
       <TextField
         label="first name"
-        type="text"
-        margin="dense"
-        fullWidth
         name="firstName"
+        type="text"
         value={itemInput.firstName}
         onChange={handleChange}
-        required
+        margin="dense"
+        fullWidth
       />
       <TextField
         label="last name"
-        type="text"
-        margin="dense"
-        fullWidth
         name="lastName"
+        type="text"
         value={itemInput.lastName}
         onChange={handleChange}
-        required
+        margin="dense"
+        fullWidth
       />
       <TextField
         label="birthdate"
-        type="date"
-        margin="dense"
-        fullWidth
         name="birthdate"
+        type="date"
         value={itemInput.birthdate}
         onChange={handleChange}
-        required
+        margin="dense"
+        fullWidth
+        slotProps={{ inputLabel: { shrink: true } }}
       />
       <TextField
         label="comment"
-        multiline
-        margin="dense"
-        fullWidth
         name="comment"
+        multiline
         value={itemInput.comment}
         onChange={handleChange}
+        margin="dense"
+        fullWidth
       />
       <div>
         <Fab type="submit" size="small" color="primary" sx={sendFabStyle}>
