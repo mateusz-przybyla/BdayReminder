@@ -4,37 +4,40 @@ import axios from "axios";
 const fetchItems = async () => {
   try {
     const response = await axios.get("/api/data");
-
-    return response.data.list;
+    return response.data;
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
   }
 };
 
-const setItem = async (newItem) => {
+const addItem = async (newItem) => {
   try {
     const response = await axios.post("/api/data", newItem);
     return response.data;
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
+    return error.response;
   }
 };
 
 const editItem = async (updatedItem, id) => {
   try {
-    const response = await axios.patch(`/api/data/${id}`, updatedItem);
+    const response = await axios.put(`/api/data/${id}`, updatedItem);
     return response.data;
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
+    return error.response;
   }
 };
 
 const deleteItem = async (id) => {
   try {
-    await axios.delete(`/api/data/${id}`);
+    const response = await axios.delete(`/api/data/${id}`);
+    return response.data;
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
+    return error.response;
   }
 };
 
-export { fetchItems, setItem, editItem, deleteItem };
+export { fetchItems, addItem, editItem, deleteItem };

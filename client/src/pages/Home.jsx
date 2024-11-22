@@ -19,9 +19,9 @@ import { currentDay, currentMonth, currentYear } from "../utils/date&time";
 
 const Home = () => {
   const navigate = useNavigate();
-  const user = useAuth();
-  const currentTime = useTime();
-  const namedays = useNameday();
+  const { user } = useAuth();
+  const { time } = useTime();
+  const { todayNameday } = useNameday();
 
   const todaysBirthday = 3; //to be completed
   const totalNumberOfBirthdays = 100; //to be completed
@@ -39,7 +39,7 @@ const Home = () => {
           </Typography>
           <Divider sx={{ my: 2 }} />
           <Typography>
-            {currentDay}-{currentMonth}-{currentYear}, {currentTime.time}
+            {currentDay}-{currentMonth}-{currentYear}, {time}
           </Typography>
           <Divider>
             <Chip
@@ -48,9 +48,7 @@ const Home = () => {
               size="large"
             />
           </Divider>
-          <Typography sx={{ fontWeight: 600 }}>
-            {namedays.todayNameday}
-          </Typography>
+          <Typography sx={{ fontWeight: 600 }}>{todayNameday}</Typography>
           <Divider>
             <Chip
               sx={{ my: 3, fontSize: 16, color: "#374954" }}

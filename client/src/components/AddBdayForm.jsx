@@ -14,13 +14,19 @@ const AddBdayForm = (props) => {
     birthdate: "",
     comment: "",
   });
-  const [alert, setAlert] = useState("");
+  const [validationAlert, setValidationAlert] = useState("");
   const [isExpanded, setExpanded] = useState(false);
 
   const expandForm = () => setExpanded(true);
   const closeForm = () => {
     setExpanded(false);
-    setAlert("");
+    setItemInput({
+      firstName: "",
+      lastName: "",
+      birthdate: "",
+      comment: "",
+    });
+    setValidationAlert("");
   };
 
   const handleChange = (event) => {
@@ -38,7 +44,9 @@ const AddBdayForm = (props) => {
     event.preventDefault();
 
     if (!itemInput.firstName || !itemInput.lastName || !itemInput.birthdate) {
-      setAlert("first name, last name, birthdate fields cannot be empty!");
+      setValidationAlert(
+        "first name, last name, birthdate fields cannot be empty!"
+      );
       return;
     }
 
@@ -49,7 +57,7 @@ const AddBdayForm = (props) => {
       birthdate: "",
       comment: "",
     });
-    setAlert("");
+    setValidationAlert("");
     closeForm();
   };
 
@@ -85,9 +93,9 @@ const AddBdayForm = (props) => {
       autoComplete="off"
       onSubmit={submitBirthday}
     >
-      {alert && (
+      {validationAlert && (
         <CommonAlert
-          content={alert}
+          content={validationAlert}
           severity="error"
           sx={{
             mb: 1,

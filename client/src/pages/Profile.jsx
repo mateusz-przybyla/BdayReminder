@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { Divider, Container, Box, Chip } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
 
 import BirthdayCard from "../components/BirthdayCard";
 import AddBdayForm from "../components/AddBdayForm";
@@ -11,7 +10,7 @@ import Info from "../components/Info";
 
 import {
   fetchItems,
-  setItem,
+  addItem,
   editItem,
   deleteItem,
 } from "../services/birthday";
@@ -21,6 +20,7 @@ import months from "../assets/months";
 const Profile = () => {
   const [data, setData] = useState([]);
   const [message, setMessage] = useState("");
+  const [messageAPI, setMessageAPI] = useState("");
 
   useEffect(() => {
     const fetchBirthdays = async () => {
@@ -31,41 +31,56 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    if (message) {
+    if (message || messageAPI) {
       setTimeout(() => {
         setMessage("");
-      }, 2000);
+        setMessageAPI("");
+      }, 3000);
     }
-  }, [message]);
+  }, [message, messageAPI]);
 
   const addBirthday = async (newBirthday) => {
-    const response = await setItem(newBirthday);
-    setData((prevData) => [...prevData, response]);
-    setMessage("Birthday created successfully!");
+    const response = await addItem(newBirthday);
+
+    if (response.status === 503) {
+      setMessageAPI(response.data.error);
+    } else {
+      setData((prevData) => [...prevData, response]);
+      setMessage("Birthday created successfully!");
+    }
   };
 
   const editBirthday = async (updatedBirthday) => {
     const response = await editItem(updatedBirthday, updatedBirthday.id);
 
-    const newData = data.map((item) => {
-      if (item.id === updatedBirthday.id) {
-        return response;
-      }
-      return item;
-    });
+    if (response.status === 503) {
+      setMessageAPI(response.data.error);
+    } else {
+      const newData = data.map((item) => {
+        if (item.id === updatedBirthday.id) {
+          return response;
+        }
+        return item;
+      });
 
-    setData(newData);
-    setMessage("Birthday updated successfully!");
+      setData(newData);
+      setMessage("Birthday updated successfully!");
+    }
   };
 
   const deleteBirthday = async (id) => {
-    await deleteItem(id);
-    setData(
-      data.filter((birthday) => {
-        return birthday.id !== id;
-      })
-    );
-    setMessage("Birthday deleted successfully!");
+    const response = await deleteItem(id);
+
+    if (response.status === 503) {
+      setMessageAPI(response.data.error);
+    } else {
+      setData(
+        data.filter((birthday) => {
+          return birthday.id !== id;
+        })
+      );
+      setMessage("Birthday deleted successfully!");
+    }
   };
 
   const calculateBdaysPerMonth = () => {
@@ -86,13 +101,26 @@ const Profile = () => {
       {message && (
         <CommonAlert
           content={message}
-          icon={<CheckIcon fontSize="inherit" />}
           severity="success"
           sx={{
             maxWidth: "800px",
             position: "fixed",
-            bottom: "50px",
-            left: "25px",
+            top: "80px",
+            left: "15px",
+            zIndex: 99,
+          }}
+        />
+      )}
+
+      {messageAPI && (
+        <CommonAlert
+          content={messageAPI}
+          severity="error"
+          sx={{
+            maxWidth: "800px",
+            position: "fixed",
+            top: "80px",
+            left: "15px",
             zIndex: 99,
           }}
         />

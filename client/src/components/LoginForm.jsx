@@ -7,7 +7,6 @@ import AddIcon from "@mui/icons-material/Add";
 import CommonAlert from "../components/Common/CommonAlert";
 import { loginUser, registerUser } from "../services/auth";
 import { emailValidator, passwordValidator } from "../utils/validators";
-import { setItem } from "../services/birthday";
 
 const LoginForm = (props) => {
   const [unregistered, setAsUnregistered] = useState(false);

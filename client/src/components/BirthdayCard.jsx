@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+
 import {
   Card,
   CardActions,
@@ -10,7 +9,11 @@ import {
   Fab,
   Typography,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+
 import EditModal from "./EditModal";
+
 import { currentDay, currentMonth, currentYear } from "../utils/date&time";
 
 const BirthdayCard = (props) => {
@@ -58,7 +61,7 @@ const BirthdayCard = (props) => {
             {props.birthday.birthdate} • (Age: {currentYear - bdayYear})
           </Typography>
           <Typography gutterBottom variant="h6" sx={{ mb: 0 }}>
-            {props.birthday.firstName} {props.birthday.lastName}
+            {props.birthday.first_name} {props.birthday.last_name}
           </Typography>
         </div>
         <CardActions sx={{ pb: 0, mb: 0 }}>
