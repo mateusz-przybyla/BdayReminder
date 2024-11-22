@@ -160,9 +160,10 @@ passport.deserializeUser((user, cb) => {
 app.get("/api/data", async (req, res) => {
   if (req.isAuthenticated()) {
     console.log(req.user);
+
     try {
       const result = await db.query(
-        "SELECT id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment FROM birthdays WHERE user_id = $1",
+        "SELECT id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment FROM birthdays WHERE user_id = $1 ORDER BY birthdate ASC",
         [req.user.id]
       );
       console.log(result.rows);
@@ -181,15 +182,15 @@ app.get("/api/data", async (req, res) => {
 });
 
 app.post("/api/data", async (req, res) => {
-  const newItem = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    birthdate: req.body.birthdate,
-    comment: req.body.comment,
-  };
-
   if (req.isAuthenticated()) {
     console.log(req.user);
+
+    const newItem = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      birthdate: req.body.birthdate,
+      comment: req.body.comment,
+    };
 
     try {
       const result = await db.query(
@@ -212,23 +213,32 @@ app.post("/api/data", async (req, res) => {
   }
 });
 
-app.patch("/api/data/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const existingItem = list.find((item) => id === item.id);
+app.put("/api/data/:id", async (req, res) => {
+  if (req.isAuthenticated()) {
+    console.log(req.user);
 
-  const replacementItem = {
-    id: id,
-    firstName: req.body.firstName || existingItem.firstName,
-    lastName: req.body.lastName || existingItem.lastName,
-    birthdate: req.body.birthdate || existingItem.birthdate,
-    comment: req.body.comment || existingItem.comment,
-  };
+    const id = parseInt(req.params.id);
 
-  const searchIndex = list.findIndex((item) => id === item.id);
-  list[searchIndex] = replacementItem;
-
-  console.log(list[searchIndex]);
-  res.json(replacementItem);
+    try {
+      const result = await db.query(
+        "UPDATE birthdays SET first_name = $1, last_name = $2, birthdate = $3, comment = $4, user_id = $5 WHERE birthdays.id = $6 RETURNING id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment",
+        [
+          req.body.firstName,
+          req.body.lastName,
+          req.body.birthdate,
+          req.body.comment,
+          req.user.id,
+          id,
+        ]
+      );
+      res.status(200).json(result.rows[0]);
+    } catch (err) {
+      console.log(`ERROR: ${err.message}`);
+      res.status(503).json({ error: "Impossible to update the birthday." });
+    }
+  } else {
+    res.status(401).json({ error: "Not authenticated." });
+  }
 });
 
 app.delete("/api/data/:id", (req, res) => {

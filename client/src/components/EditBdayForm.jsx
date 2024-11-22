@@ -9,12 +9,12 @@ import CommonAlert from "./Common/CommonAlert";
 const EditBdayForm = (props) => {
   const [itemInput, setItemInput] = useState({
     id: props.birthday.id,
-    firstName: props.birthday.firstName,
-    lastName: props.birthday.lastName,
+    firstName: props.birthday.first_name,
+    lastName: props.birthday.last_name,
     birthdate: props.birthday.birthdate,
     comment: props.birthday.comment,
   });
-  const [alert, setAlert] = useState("");
+  const [validationAlert, setValidationAlert] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,7 +31,9 @@ const EditBdayForm = (props) => {
     event.preventDefault();
 
     if (!itemInput.firstName || !itemInput.lastName || !itemInput.birthdate) {
-      setAlert("first name, last name, birthdate fields cannot be empty!");
+      setValidationAlert(
+        "first name, last name, birthdate fields cannot be empty!"
+      );
       return;
     }
 
@@ -75,15 +77,17 @@ const EditBdayForm = (props) => {
         Edit birthday data:
       </Typography>
       <Divider sx={{ my: 2 }} />
-      {alert && (
+
+      {validationAlert && (
         <CommonAlert
-          content={alert}
+          content={validationAlert}
           severity="error"
           sx={{
             my: 1,
           }}
         />
       )}
+
       <TextField
         label="first name"
         name="firstName"

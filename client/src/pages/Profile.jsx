@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { Divider, Container, Box, Chip } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
 
 import BirthdayCard from "../components/BirthdayCard";
 import AddBdayForm from "../components/AddBdayForm";
@@ -54,15 +53,19 @@ const Profile = () => {
   const editBirthday = async (updatedBirthday) => {
     const response = await editItem(updatedBirthday, updatedBirthday.id);
 
-    const newData = data.map((item) => {
-      if (item.id === updatedBirthday.id) {
-        return response;
-      }
-      return item;
-    });
+    if (response.status === 503) {
+      setMessageAPI(response.data.error);
+    } else {
+      const newData = data.map((item) => {
+        if (item.id === updatedBirthday.id) {
+          return response;
+        }
+        return item;
+      });
 
-    setData(newData);
-    setMessage("Birthday updated successfully!");
+      setData(newData);
+      setMessage("Birthday updated successfully!");
+    }
   };
 
   const deleteBirthday = async (id) => {

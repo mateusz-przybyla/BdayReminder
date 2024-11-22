@@ -22,10 +22,11 @@ const addItem = async (newItem) => {
 
 const editItem = async (updatedItem, id) => {
   try {
-    const response = await axios.patch(`/api/data/${id}`, updatedItem);
+    const response = await axios.put(`/api/data/${id}`, updatedItem);
     return response.data;
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
+    return error.response;
   }
 };
 
