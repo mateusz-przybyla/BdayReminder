@@ -4,13 +4,12 @@ import axios from "axios";
 const fetchItems = async () => {
   try {
     const response = await axios.get("/api/data");
-
-    return response.data.list;
+    return response.data;
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
   }
 };
-
+//addItem
 const setItem = async (newItem) => {
   try {
     const response = await axios.post("/api/data", newItem);

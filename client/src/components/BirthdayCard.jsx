@@ -58,7 +58,7 @@ const BirthdayCard = (props) => {
             {props.birthday.birthdate} • (Age: {currentYear - bdayYear})
           </Typography>
           <Typography gutterBottom variant="h6" sx={{ mb: 0 }}>
-            {props.birthday.firstName} {props.birthday.lastName}
+            {props.birthday.first_name} {props.birthday.last_name}
           </Typography>
         </div>
         <CardActions sx={{ pb: 0, mb: 0 }}>

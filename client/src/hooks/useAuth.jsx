@@ -4,7 +4,7 @@ import { logoutUser, getUserInfo } from "../services/auth";
 
 const useAuth = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  const [user, setUser] = useState("");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -13,7 +13,8 @@ const useAuth = () => {
       if (response.status === 200) {
         console.log("Auth info: ", response.status, response.statusText);
         setLoggedIn(true);
-        setUsername(response.data.username);
+        console.log(response.data);
+        setUser(response.data);
       } else {
         console.log(
           "Auth info: ",
@@ -34,7 +35,7 @@ const useAuth = () => {
     loggedIn,
     setLoggedIn,
     logout,
-    username,
+    user,
   };
 };
 

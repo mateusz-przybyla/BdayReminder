@@ -157,8 +157,27 @@ passport.deserializeUser((user, cb) => {
 
 // -- Birthdays Section API --
 
-app.get("/api/data", (req, res) => {
-  res.json({ list: list });
+app.get("/api/data", async (req, res) => {
+  if (req.isAuthenticated()) {
+    console.log(req.user);
+    try {
+      const result = await db.query(
+        `SELECT id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment FROM birthdays WHERE user_id = $1`,
+        [req.user.id]
+      );
+      console.log(result.rows);
+      if (result.rows.length > 0) {
+        res.status(200).json(result.rows);
+      } else {
+        res.status(200).json([]);
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).end();
+    }
+  } else {
+    res.status(401).json({ error: "Not authenticated." });
+  }
 });
 
 app.post("/api/data", (req, res) => {
@@ -212,55 +231,3 @@ app.delete("/api/data/:id", (req, res) => {
 app.listen(port, () => {
   console.log(`API Server running on port ${port}`);
 });
-
-var list = [
-  {
-    id: 1,
-    firstName: "mateusz",
-    lastName: "przybyla",
-    birthdate: "1994-01-01",
-    comment: "aaa",
-  },
-  {
-    id: 2,
-    firstName: "paulina",
-    lastName: "przybyla",
-    birthdate: "1994-01-02",
-    comment: "bbb",
-  },
-  {
-    id: 3,
-    firstName: "ania",
-    lastName: "przybyla",
-    birthdate: "1994-03-03",
-    comment: "ccc",
-  },
-  {
-    id: 4,
-    firstName: "ania",
-    lastName: "przybyla",
-    birthdate: "1994-04-03",
-    comment: "ccc",
-  },
-  {
-    id: 5,
-    firstName: "ania",
-    lastName: "przybyla",
-    birthdate: "1994-05-03",
-    comment: "ccc",
-  },
-  {
-    id: 6,
-    firstName: "ania",
-    lastName: "przybyla",
-    birthdate: "1994-06-03",
-    comment: "ccc",
-  },
-  {
-    id: 7,
-    firstName: "ania",
-    lastName: "przybyla",
-    birthdate: "1994-07-03",
-    comment: "ccc",
-  },
-];
