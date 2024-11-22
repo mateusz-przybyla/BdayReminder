@@ -13,7 +13,6 @@ const useAuth = () => {
       if (response.status === 200) {
         console.log("Auth info: ", response.status, response.statusText);
         setLoggedIn(true);
-        console.log(response.data);
         setUser(response.data);
       } else {
         console.log(

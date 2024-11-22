@@ -32,9 +32,11 @@ const editItem = async (updatedItem, id) => {
 
 const deleteItem = async (id) => {
   try {
-    await axios.delete(`/api/data/${id}`);
+    const response = await axios.delete(`/api/data/${id}`);
+    return response.data;
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
+    return error.response;
   }
 };
 

@@ -241,17 +241,20 @@ app.put("/api/data/:id", async (req, res) => {
   }
 });
 
-app.delete("/api/data/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const searchIndex = list.findIndex((item) => item.id === id);
+app.delete("/api/data/:id", async (req, res) => {
+  if (req.isAuthenticated()) {
+    console.log(req.user);
 
-  if (searchIndex > -1) {
-    list.splice(searchIndex, 1);
-    res.sendStatus(200);
+    const id = parseInt(req.params.id);
+    try {
+      await db.query("DELETE FROM birthdays WHERE birthdays.id = $1", [id]);
+      res.status(200).end();
+    } catch (err) {
+      console.log(`ERROR: ${err.message}`);
+      res.status(503).json({ error: "Impossible to delete the birthday." });
+    }
   } else {
-    res.status(404).json({
-      error: `Person with id: ${id} not found.`,
-    });
+    res.status(401).json({ error: "Not authenticated." });
   }
 });
 

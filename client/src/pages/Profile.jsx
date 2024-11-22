@@ -69,13 +69,18 @@ const Profile = () => {
   };
 
   const deleteBirthday = async (id) => {
-    await deleteItem(id);
-    setData(
-      data.filter((birthday) => {
-        return birthday.id !== id;
-      })
-    );
-    setMessage("Birthday deleted successfully!");
+    const response = await deleteItem(id);
+
+    if (response.status === 503) {
+      setMessageAPI(response.data.error);
+    } else {
+      setData(
+        data.filter((birthday) => {
+          return birthday.id !== id;
+        })
+      );
+      setMessage("Birthday deleted successfully!");
+    }
   };
 
   const calculateBdaysPerMonth = () => {
