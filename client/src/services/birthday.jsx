@@ -9,13 +9,14 @@ const fetchItems = async () => {
     console.log(error.message);
   }
 };
-//addItem
-const setItem = async (newItem) => {
+
+const addItem = async (newItem) => {
   try {
     const response = await axios.post("/api/data", newItem);
     return response.data;
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
+    return error.response;
   }
 };
 
@@ -36,4 +37,4 @@ const deleteItem = async (id) => {
   }
 };
 
-export { fetchItems, setItem, editItem, deleteItem };
+export { fetchItems, addItem, editItem, deleteItem };

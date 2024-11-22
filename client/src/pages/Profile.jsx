@@ -11,7 +11,7 @@ import Info from "../components/Info";
 
 import {
   fetchItems,
-  setItem,
+  addItem,
   editItem,
   deleteItem,
 } from "../services/birthday";
@@ -21,6 +21,7 @@ import months from "../assets/months";
 const Profile = () => {
   const [data, setData] = useState([]);
   const [message, setMessage] = useState("");
+  const [messageAPI, setMessageAPI] = useState("");
 
   useEffect(() => {
     const fetchBirthdays = async () => {
@@ -31,17 +32,23 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    if (message) {
+    if (message || messageAPI) {
       setTimeout(() => {
         setMessage("");
-      }, 2000);
+        setMessageAPI("");
+      }, 3000);
     }
-  }, [message]);
+  }, [message, messageAPI]);
 
   const addBirthday = async (newBirthday) => {
-    const response = await setItem(newBirthday);
-    setData((prevData) => [...prevData, response]);
-    setMessage("Birthday created successfully!");
+    const response = await addItem(newBirthday);
+
+    if (response.status === 503) {
+      setMessageAPI(response.data.error);
+    } else {
+      setData((prevData) => [...prevData, response]);
+      setMessage("Birthday created successfully!");
+    }
   };
 
   const editBirthday = async (updatedBirthday) => {
@@ -86,13 +93,26 @@ const Profile = () => {
       {message && (
         <CommonAlert
           content={message}
-          icon={<CheckIcon fontSize="inherit" />}
           severity="success"
           sx={{
             maxWidth: "800px",
             position: "fixed",
-            bottom: "50px",
-            left: "25px",
+            top: "80px",
+            left: "15px",
+            zIndex: 99,
+          }}
+        />
+      )}
+
+      {messageAPI && (
+        <CommonAlert
+          content={messageAPI}
+          severity="error"
+          sx={{
+            maxWidth: "800px",
+            position: "fixed",
+            top: "80px",
+            left: "15px",
             zIndex: 99,
           }}
         />

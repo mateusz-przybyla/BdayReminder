@@ -162,7 +162,7 @@ app.get("/api/data", async (req, res) => {
     console.log(req.user);
     try {
       const result = await db.query(
-        `SELECT id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment FROM birthdays WHERE user_id = $1`,
+        "SELECT id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment FROM birthdays WHERE user_id = $1",
         [req.user.id]
       );
       console.log(result.rows);
@@ -172,7 +172,7 @@ app.get("/api/data", async (req, res) => {
         res.status(200).json([]);
       }
     } catch (err) {
-      console.log(err);
+      console.log(`ERROR: ${err.message}`);
       res.status(500).end();
     }
   } else {
@@ -180,19 +180,36 @@ app.get("/api/data", async (req, res) => {
   }
 });
 
-app.post("/api/data", (req, res) => {
-  console.log(req.body);
-
+app.post("/api/data", async (req, res) => {
   const newItem = {
-    id: list.length + 1,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     birthdate: req.body.birthdate,
     comment: req.body.comment,
   };
 
-  list.push(newItem);
-  res.json(newItem);
+  if (req.isAuthenticated()) {
+    console.log(req.user);
+
+    try {
+      const result = await db.query(
+        "INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment",
+        [
+          newItem.firstName,
+          newItem.lastName,
+          newItem.birthdate,
+          newItem.comment,
+          req.user.id,
+        ]
+      );
+      res.status(201).json(result.rows[0]);
+    } catch (err) {
+      console.log(`ERROR: ${err.message}`);
+      res.status(503).json({ error: "Impossible to create the birthday." });
+    }
+  } else {
+    res.status(401).json({ error: "Not authenticated." });
+  }
 });
 
 app.patch("/api/data/:id", (req, res) => {
