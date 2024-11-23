@@ -14,6 +14,7 @@ import {
 import useAuth from "../hooks/useAuth";
 import useTime from "../hooks/useTime";
 import useNameday from "../hooks/useNameday";
+import useBirthday from "../hooks/useBirthday";
 
 import { currentDay, currentMonth, currentYear } from "../utils/date&time";
 
@@ -22,9 +23,15 @@ const Home = () => {
   const { user } = useAuth();
   const { time } = useTime();
   const { todayNameday } = useNameday();
+  const { birthdays } = useBirthday();
 
-  const todaysBirthday = 3; //to be completed
-  const totalNumberOfBirthdays = 100; //to be completed
+  var todaysBirthday = 0;
+  birthdays.forEach(
+    (birthday) =>
+      birthday.birthdate === `${currentYear}-${currentMonth}-${currentDay}` &&
+      todaysBirthday++
+  );
+  const totalNumberOfBirthdays = birthdays.length;
 
   return (
     <Container sx={{ pt: 20, pb: "100px" }}>
