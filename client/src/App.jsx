@@ -20,7 +20,7 @@ import useAuth from "./hooks/useAuth";
 import "./App.css";
 
 const App = () => {
-  const user = useAuth();
+  const { loggedIn, setLoggedIn, logout } = useAuth();
 
   return (
     <div>
@@ -29,10 +29,7 @@ const App = () => {
           <Route
             element={
               <>
-                <Header
-                  isAuthenticated={user.loggedIn}
-                  handleLogout={user.logout}
-                />
+                <Header isAuthenticated={loggedIn} handleLogout={logout} />
                 <Outlet />
                 <Footer />
               </>
@@ -41,23 +38,21 @@ const App = () => {
             <Route
               path="/login"
               element={
-                user.loggedIn ? (
+                loggedIn ? (
                   <Navigate replace to="/home" />
                 ) : (
-                  <Authentication setLoggedIn={user.setLoggedIn} />
+                  <Authentication setLoggedIn={setLoggedIn} />
                 )
               }
             />
             <Route
               path="/home"
-              element={
-                !user.loggedIn ? <Navigate replace to="/login" /> : <Home />
-              }
+              element={!loggedIn ? <Navigate replace to="/login" /> : <Home />}
             />
             <Route
               path="/profile"
               element={
-                !user.loggedIn ? <Navigate replace to="/login" /> : <Profile />
+                !loggedIn ? <Navigate replace to="/login" /> : <Profile />
               }
             />
             <Route path="*" element={<NotFound />} />
