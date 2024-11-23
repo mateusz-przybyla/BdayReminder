@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import bcrypt from "bcrypt";
 import env from "dotenv";
+import { check, validationResult } from "express-validator";
 
 //password-related imports
 import session from "express-session";
@@ -25,11 +26,8 @@ if (process.env.NODE_ENV === "development") {
     })
   );
 }
-const saltRounds = 10;
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -40,7 +38,6 @@ app.use(
     },
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -52,6 +49,8 @@ const db = new pg.Client({
   port: process.env.PG_PORT,
 });
 db.connect();
+
+const saltRounds = 10;
 
 // -- Authentication Section API --
 
@@ -74,41 +73,57 @@ app.post("/api/login", passport.authenticate("local"), (req, res) => {
   res.status(201).json(req.user);
 });
 
-app.post("/api/register", async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-
-  try {
-    const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [
-      username,
-    ]);
-
-    if (checkResult.rows.length > 0) {
-      res.status(403).json({ error: "Email already exists. Try logging in." });
-    } else {
-      bcrypt.hash(password, saltRounds, async (err, hash) => {
-        if (err) {
-          console.error("Error hashing password:", err);
-        } else {
-          const result = await db.query(
-            "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
-            [username, hash]
-          );
-          const user = {
-            id: result.rows[0].id,
-            username: result.rows[0].email,
-          };
-          req.login(user, (err) => {
-            console.log("success");
-            res.status(201).json(user);
-          });
-        }
+app.post(
+  "/api/register",
+  [check("username").isEmail(), check("password").isLength({ min: 3 })],
+  async (req, res) => {
+    //backend data validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      return res.status(422).json({
+        error: "The entered data did not pass validation. Enter correct data.",
       });
     }
-  } catch (err) {
-    console.log(err);
+
+    const username = req.body.username;
+    const password = req.body.password;
+
+    try {
+      const checkResult = await db.query(
+        "SELECT * FROM users WHERE email = $1",
+        [username]
+      );
+
+      if (checkResult.rows.length > 0) {
+        res
+          .status(403)
+          .json({ error: "Email already exists. Try logging in." });
+      } else {
+        bcrypt.hash(password, saltRounds, async (err, hash) => {
+          if (err) {
+            console.error("Error hashing password:", err);
+          } else {
+            const result = await db.query(
+              "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
+              [username, hash]
+            );
+            const user = {
+              id: result.rows[0].id,
+              username: result.rows[0].email,
+            };
+            req.login(user, (err) => {
+              console.log("success");
+              res.status(201).json(user);
+            });
+          }
+        });
+      }
+    } catch (err) {
+      console.log(`ERROR: ${err.message}`);
+    }
   }
-});
+);
 
 // Passport: set up localy strategy
 passport.use(
@@ -143,7 +158,7 @@ passport.use(
         return cb(null, false);
       }
     } catch (err) {
-      console.log(err);
+      console.log(`ERROR: ${err.message}`);
     }
   })
 );
@@ -181,65 +196,94 @@ app.get("/api/data", async (req, res) => {
   }
 });
 
-app.post("/api/data", async (req, res) => {
-  if (req.isAuthenticated()) {
-    console.log(req.user);
+app.post(
+  "/api/data",
+  [
+    check("firstName").notEmpty(),
+    check("lastName").notEmpty(),
+    check("birthdate").isDate({ format: "YYYY-MM-DD", strictMode: true }),
+  ],
+  async (req, res) => {
+    if (req.isAuthenticated()) {
+      console.log(req.user);
 
-    const newItem = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      birthdate: req.body.birthdate,
-      comment: req.body.comment,
-    };
+      //backend data validation
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.log(errors);
+        return res.status(422).json({
+          error:
+            "The entered data did not pass validation. Enter correct data.",
+        });
+      }
 
-    try {
-      const result = await db.query(
-        "INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment",
-        [
-          newItem.firstName,
-          newItem.lastName,
-          newItem.birthdate,
-          newItem.comment,
-          req.user.id,
-        ]
-      );
-      res.status(201).json(result.rows[0]);
-    } catch (err) {
-      console.log(`ERROR: ${err.message}`);
-      res.status(503).json({ error: "Impossible to create the birthday." });
+      try {
+        const result = await db.query(
+          "INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment",
+          [
+            req.body.firstName,
+            req.body.lastName,
+            req.body.birthdate,
+            req.body.comment,
+            req.user.id,
+          ]
+        );
+        res.status(201).json(result.rows[0]);
+      } catch (err) {
+        console.log(`ERROR: ${err.message}`);
+        res.status(503).json({ error: "Impossible to create the birthday." });
+      }
+    } else {
+      res.status(401).json({ error: "Not authenticated." });
     }
-  } else {
-    res.status(401).json({ error: "Not authenticated." });
   }
-});
+);
 
-app.put("/api/data/:id", async (req, res) => {
-  if (req.isAuthenticated()) {
-    console.log(req.user);
+app.put(
+  "/api/data/:id",
+  [
+    check("firstName").notEmpty(),
+    check("lastName").notEmpty(),
+    check("birthdate").isDate({ format: "YYYY-MM-DD", strictMode: true }),
+  ],
+  async (req, res) => {
+    if (req.isAuthenticated()) {
+      console.log(req.user);
 
-    const id = parseInt(req.params.id);
+      //backend data validation
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.log(errors);
+        return res.status(422).json({
+          error:
+            "The entered data did not pass validation. Enter correct data.",
+        });
+      }
 
-    try {
-      const result = await db.query(
-        "UPDATE birthdays SET first_name = $1, last_name = $2, birthdate = $3, comment = $4, user_id = $5 WHERE birthdays.id = $6 RETURNING id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment",
-        [
-          req.body.firstName,
-          req.body.lastName,
-          req.body.birthdate,
-          req.body.comment,
-          req.user.id,
-          id,
-        ]
-      );
-      res.status(200).json(result.rows[0]);
-    } catch (err) {
-      console.log(`ERROR: ${err.message}`);
-      res.status(503).json({ error: "Impossible to update the birthday." });
+      const id = parseInt(req.params.id);
+
+      try {
+        const result = await db.query(
+          "UPDATE birthdays SET first_name = $1, last_name = $2, birthdate = $3, comment = $4, user_id = $5 WHERE birthdays.id = $6 RETURNING id, first_name, last_name, TO_CHAR(birthdate, 'yyyy-mm-dd') AS birthdate, comment",
+          [
+            req.body.firstName,
+            req.body.lastName,
+            req.body.birthdate,
+            req.body.comment,
+            req.user.id,
+            id,
+          ]
+        );
+        res.status(200).json(result.rows[0]);
+      } catch (err) {
+        console.log(`ERROR: ${err.message}`);
+        res.status(503).json({ error: "Impossible to update the birthday." });
+      }
+    } else {
+      res.status(401).json({ error: "Not authenticated." });
     }
-  } else {
-    res.status(401).json({ error: "Not authenticated." });
   }
-});
+);
 
 app.delete("/api/data/:id", async (req, res) => {
   if (req.isAuthenticated()) {

@@ -35,14 +35,14 @@ const Profile = () => {
       setTimeout(() => {
         setMessage("");
         setMessageAPI("");
-      }, 3000);
+      }, 3500);
     }
   }, [message, messageAPI]);
 
   const addBirthday = async (newBirthday) => {
     const response = await addItem(newBirthday);
 
-    if (response.status === 503) {
+    if (response.status === 503 || response.status === 422) {
       setMessageAPI(response.data.error);
     } else {
       setData((prevData) => [...prevData, response]);
@@ -53,7 +53,7 @@ const Profile = () => {
   const editBirthday = async (updatedBirthday) => {
     const response = await editItem(updatedBirthday, updatedBirthday.id);
 
-    if (response.status === 503) {
+    if (response.status === 503 || response.status === 422) {
       setMessageAPI(response.data.error);
     } else {
       const newData = data.map((item) => {
