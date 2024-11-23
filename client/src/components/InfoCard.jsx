@@ -1,9 +1,11 @@
 import React from "react";
-import reactLogo from "../assets/react.svg";
-import viteLogo from "/vite.svg";
+
 import { Card, Typography, CardActions } from "@mui/material";
 
-function Info() {
+import reactLogo from "../assets/react.svg";
+import viteLogo from "/vite.svg";
+
+const InfoCard = () => {
   return (
     <Card
       sx={{
@@ -30,6 +32,6 @@ function Info() {
       </CardActions>
     </Card>
   );
-}
+};
 
-export default Info;
+export default InfoCard;

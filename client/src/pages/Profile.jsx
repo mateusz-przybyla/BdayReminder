@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { Divider, Container, Box, Chip } from "@mui/material";
 
@@ -6,87 +6,26 @@ import BirthdayCard from "../components/BirthdayCard";
 import AddBdayForm from "../components/AddBdayForm";
 import CommonBarChart from "../components/Common/CommonBarChart";
 import CommonAlert from "../components/Common/CommonAlert";
-import Info from "../components/Info";
+import InfoCard from "../components/InfoCard";
 
-import {
-  fetchItems,
-  addItem,
-  editItem,
-  deleteItem,
-} from "../services/birthday";
+import useBirthday from "../hooks/useBirthday";
 
 import months from "../assets/months";
 
 const Profile = () => {
-  const [data, setData] = useState([]);
-  const [message, setMessage] = useState("");
-  const [messageAPI, setMessageAPI] = useState("");
-
-  useEffect(() => {
-    const fetchBirthdays = async () => {
-      const response = await fetchItems();
-      setData(response);
-    };
-    fetchBirthdays();
-  }, []);
-
-  useEffect(() => {
-    if (message || messageAPI) {
-      setTimeout(() => {
-        setMessage("");
-        setMessageAPI("");
-      }, 3500);
-    }
-  }, [message, messageAPI]);
-
-  const addBirthday = async (newBirthday) => {
-    const response = await addItem(newBirthday);
-
-    if (response.status === 503 || response.status === 422) {
-      setMessageAPI(response.data.error);
-    } else {
-      setData((prevData) => [...prevData, response]);
-      setMessage("Birthday created successfully!");
-    }
-  };
-
-  const editBirthday = async (updatedBirthday) => {
-    const response = await editItem(updatedBirthday, updatedBirthday.id);
-
-    if (response.status === 503 || response.status === 422) {
-      setMessageAPI(response.data.error);
-    } else {
-      const newData = data.map((item) => {
-        if (item.id === updatedBirthday.id) {
-          return response;
-        }
-        return item;
-      });
-
-      setData(newData);
-      setMessage("Birthday updated successfully!");
-    }
-  };
-
-  const deleteBirthday = async (id) => {
-    const response = await deleteItem(id);
-
-    if (response.status === 503) {
-      setMessageAPI(response.data.error);
-    } else {
-      setData(
-        data.filter((birthday) => {
-          return birthday.id !== id;
-        })
-      );
-      setMessage("Birthday deleted successfully!");
-    }
-  };
+  const {
+    birthdays,
+    message,
+    messageAPI,
+    addBirthday,
+    editBirthday,
+    deleteBirthday,
+  } = useBirthday();
 
   const calculateBdaysPerMonth = () => {
     var result = [];
     months.forEach((month) => {
-      const itemsPerMonth = data.reduce((accumulator, currentValue) => {
+      const itemsPerMonth = birthdays.reduce((accumulator, currentValue) => {
         currentValue.birthdate.includes(`-${month.number}-`) && accumulator++;
         return accumulator;
       }, 0);
@@ -136,7 +75,7 @@ const Profile = () => {
           <Box
             sx={{ display: "flex", justifyContent: "left", flexWrap: "wrap" }}
           >
-            {data.map(
+            {birthdays.map(
               (bdayItem, index) =>
                 bdayItem.birthdate.includes(`-${month.number}-`) && (
                   <BirthdayCard
@@ -161,7 +100,7 @@ const Profile = () => {
         />
       </Box>
       <Divider sx={{ my: 3 }} />
-      <Info />
+      <InfoCard />
     </Container>
   );
 };

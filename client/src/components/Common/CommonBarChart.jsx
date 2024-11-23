@@ -1,4 +1,5 @@
 import React from "react";
+
 import { BarChart } from "@mui/x-charts/BarChart";
 import { axisClasses } from "@mui/x-charts/ChartsAxis";
 import { chartsGridClasses } from "@mui/x-charts/ChartsGrid";

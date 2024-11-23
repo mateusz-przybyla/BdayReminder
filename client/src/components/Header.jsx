@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import CakeIcon from "@mui/icons-material/Cake";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import {
   Stack,
   Link,
@@ -15,6 +12,9 @@ import {
   Drawer,
   Box,
 } from "@mui/material";
+import CakeIcon from "@mui/icons-material/Cake";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 const NavList = (props) => {
   const navigate = useNavigate();
