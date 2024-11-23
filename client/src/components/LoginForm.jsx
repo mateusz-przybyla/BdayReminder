@@ -5,6 +5,7 @@ import { Box, TextField, Fab, Typography, Divider, Link } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import CommonAlert from "../components/Common/CommonAlert";
+
 import { loginUser, registerUser } from "../services/auth";
 import { emailValidator, passwordValidator } from "../utils/validators";
 
@@ -64,7 +65,7 @@ const LoginForm = (props) => {
     if (messageAPI) {
       setTimeout(() => {
         setMessageAPI("");
-      }, 2000);
+      }, 3500);
     }
   }, [messageAPI]);
 
@@ -93,7 +94,7 @@ const LoginForm = (props) => {
         password: password.value,
       });
 
-      if (response.status === 403) {
+      if (response.status === 403 || response.status === 422) {
         setMessageAPI(response.response.data.error);
       } else {
         props.setLoggedIn(true);
