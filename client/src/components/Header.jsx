@@ -33,7 +33,7 @@ const NavList = (props) => {
         <>
           <Link
             onClick={() => {
-              navigate("/home");
+              navigate("/");
               props.handleClose?.(false);
             }}
             sx={{

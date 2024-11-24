@@ -131,7 +131,7 @@ const LoginForm = (props) => {
         setMessageAPI(response.response.statusText);
       } else {
         props.setLoggedIn(true);
-        navigate("/home");
+        navigate("/");
       }
     }
   };

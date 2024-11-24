@@ -39,14 +39,14 @@ const App = () => {
               path="/login"
               element={
                 loggedIn ? (
-                  <Navigate replace to="/home" />
+                  <Navigate replace to="/" />
                 ) : (
                   <Authentication setLoggedIn={setLoggedIn} />
                 )
               }
             />
             <Route
-              path="/home"
+              path="/"
               element={!loggedIn ? <Navigate replace to="/login" /> : <Home />}
             />
             <Route
