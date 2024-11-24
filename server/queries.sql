@@ -15,7 +15,7 @@ CREATE TABLE birthdays(
   user_id INTEGER REFERENCES users(id)
 );
 
-INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ('fname1', 'lname1', '1996-10-01', 'buy flowers', 2);
-INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ('fname2', 'lname2', '1996-10-13', 'buy flowers', 2);
-INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ('fname3', 'lname3', '1996-10-02', 'buy flowers', 2);
-INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ('fname4', 'lname4', '1996-10-31', '' , 2);
+INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ('fname1', 'lname1', '1996-10-01', 'buy flowers', 1);
+INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ('fname2', 'lname2', '1996-10-13', 'buy flowers', 1);
+INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ('fname3', 'lname3', '1996-10-02', 'buy flowers', 1);
+INSERT INTO birthdays (first_name, last_name, birthdate, comment, user_id) VALUES ('fname4', 'lname4', '1996-10-31', '' , 1);

@@ -5,8 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node server",
+    "dev": "nodemon server"
   },
   "author": "Mateusz Przybyla",
   "license": "ISC",

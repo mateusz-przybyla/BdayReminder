@@ -5,13 +5,20 @@
   "main": "server/server.js",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\" -k",
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "cd server && npm run start",
+    "start:dev": "concurrently \"npm run server\" \"npm run client\" -k",
     "client": "cd client && npm run dev",
-    "server": "cd server && npm run dev"
+    "server": "cd server && npm run dev",
+    "install": "cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm run build"
   },
   "author": "Mateusz Przybyla",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^9.0.1"
+  },
+  "dependencies": {
+    "if-env": "^1.0.4"
   }
 }
