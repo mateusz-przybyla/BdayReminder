@@ -111,6 +111,7 @@ const AddBdayForm = (props) => {
         onChange={handleChange}
         margin="dense"
         fullWidth
+        required
         onClick={expandForm}
         size={isExpanded ? "normal" : "small"}
       />
@@ -124,6 +125,7 @@ const AddBdayForm = (props) => {
             onChange={handleChange}
             margin="dense"
             fullWidth
+            required
           />
           <TextField
             label="birthdate"
@@ -133,6 +135,7 @@ const AddBdayForm = (props) => {
             onChange={handleChange}
             margin="dense"
             fullWidth
+            required
             slotProps={{ inputLabel: { shrink: true } }}
           />
           <TextField
@@ -144,6 +147,7 @@ const AddBdayForm = (props) => {
             onChange={handleChange}
             margin="dense"
             fullWidth
+            required
           />
         </>
       )}

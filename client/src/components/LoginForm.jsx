@@ -184,7 +184,7 @@ const LoginForm = (props) => {
       )}
 
       <TextField
-        label="username"
+        label="email"
         name="username"
         type="email"
         value={username.value}
@@ -193,6 +193,7 @@ const LoginForm = (props) => {
         helperText={username.error && "Invalid email address."}
         margin="dense"
         fullWidth
+        required
       />
       <TextField
         label="password"
@@ -206,6 +207,7 @@ const LoginForm = (props) => {
         }
         margin="dense"
         fullWidth
+        required
       />
 
       <Typography sx={{ fontSize: "13px", mt: 2, color: "#758694" }}>
