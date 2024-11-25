@@ -11,16 +11,9 @@ const useAuth = () => {
       const response = await getUserInfo();
 
       if (response.status === 200) {
-        //console.log("Auth info: ", response.status, response.statusText);
         setLoggedIn(true);
         setUser(response.data);
-      } /*else {
-        console.log(
-          "Auth info: ",
-          response.response.status,
-          response.response.data.error
-        );
-      }*/
+      }
     };
     checkAuth();
   }, []);

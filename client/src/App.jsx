@@ -1,19 +1,11 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  Outlet,
-} from "react-router-dom";
-
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import Authentication from "./pages/Authentication";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import Layout from "./pages/Layout";
 
 import useAuth from "./hooks/useAuth";
 
@@ -27,35 +19,28 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route
-            element={
-              <>
-                <Header isAuthenticated={loggedIn} handleLogout={logout} />
-                <Outlet />
-                <Footer />
-              </>
-            }
+            path="/"
+            element={<Layout loggedIn={loggedIn} handleLogout={logout} />}
           >
             <Route
-              path="/login"
+              index
               element={
                 loggedIn ? (
-                  <Navigate replace to="/" />
+                  <Navigate replace to="/home" />
                 ) : (
                   <Authentication setLoggedIn={setLoggedIn} />
                 )
               }
             />
             <Route
-              path="/"
-              element={!loggedIn ? <Navigate replace to="/login" /> : <Home />}
+              path="/home"
+              element={loggedIn ? <Home /> : <Navigate replace to="/" />}
             />
             <Route
               path="/profile"
-              element={
-                !loggedIn ? <Navigate replace to="/login" /> : <Profile />
-              }
+              element={loggedIn ? <Profile /> : <Navigate replace to="/" />}
             />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>

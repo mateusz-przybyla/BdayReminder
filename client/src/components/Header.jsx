@@ -29,11 +29,11 @@ const NavList = (props) => {
       fontSize={{ xs: "22px", sm: "initial" }}
       sx={props.sx}
     >
-      {props.isAuthenticated && (
+      {props.loggedIn && (
         <>
           <Link
             onClick={() => {
-              navigate("/");
+              navigate("/home");
               props.handleClose?.(false);
             }}
             sx={{
@@ -61,7 +61,7 @@ const NavList = (props) => {
           <Link
             onClick={() => {
               props.handleLogout();
-              navigate("/login");
+              navigate("/");
 
               props.handleClose?.(false);
             }}
@@ -87,7 +87,7 @@ const Nav = (props) => {
 
   return (
     <>
-      {props.isAuthenticated && (
+      {props.loggedIn && (
         <Button
           variant="text"
           onClick={toggleDrawer(true)}
@@ -121,13 +121,13 @@ const Nav = (props) => {
           </Button>
         </Box>
         <NavList
-          isAuthenticated={props.isAuthenticated}
+          loggedIn={props.loggedIn}
           handleLogout={props.handleLogout}
           handleClose={(state) => setOpen(state)}
         />
       </Drawer>
       <NavList
-        isAuthenticated={props.isAuthenticated}
+        loggedIn={props.loggedIn}
         handleLogout={props.handleLogout}
         sx={{
           display: { xs: "none", sm: "inherit" },
@@ -160,10 +160,7 @@ const Header = (props) => {
                 Bday Reminder
               </Typography>
             </Box>
-            <Nav
-              isAuthenticated={props.isAuthenticated}
-              handleLogout={props.handleLogout}
-            />
+            <Nav loggedIn={props.loggedIn} handleLogout={props.handleLogout} />
           </Stack>
         </Toolbar>
       </Container>

@@ -27,10 +27,7 @@ const NotFound = () => {
           </Typography>
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-          <Link
-            onClick={() => navigate("/login")}
-            sx={{ cursor: "pointer", mb: 1 }}
-          >
+          <Link onClick={() => navigate("/")} sx={{ cursor: "pointer", mb: 1 }}>
             Back
           </Link>
         </CardActions>
