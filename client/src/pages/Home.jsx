@@ -42,7 +42,9 @@ const Home = () => {
             component="h1"
             sx={{ fontWeight: 600, color: "#374954" }}
           >
-            Hello {user.username}
+            Hello
+            {user.username && user.username.length > 15 ? <br /> : ""}{" "}
+            {user.username}
           </Typography>
           <Divider sx={{ my: 2 }} />
           <Typography>
