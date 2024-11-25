@@ -28,7 +28,7 @@ const Home = () => {
   var todaysBirthday = 0;
   birthdays.forEach(
     (birthday) =>
-      birthday.birthdate === `${currentYear}-${currentMonth}-${currentDay}` &&
+      birthday.birthdate.includes(`-${currentMonth}-${currentDay}`) &&
       todaysBirthday++
   );
   const totalNumberOfBirthdays = birthdays.length;
