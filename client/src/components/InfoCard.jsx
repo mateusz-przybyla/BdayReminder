@@ -3,7 +3,7 @@ import React from "react";
 import { Card, Typography, CardActions } from "@mui/material";
 
 import reactLogo from "../assets/react.svg";
-import viteLogo from "/vite.svg";
+import viteLogo from "../assets/vite.svg";
 
 const InfoCard = () => {
   return (
