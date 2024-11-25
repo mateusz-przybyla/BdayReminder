@@ -96,6 +96,7 @@ const EditBdayForm = (props) => {
         onChange={handleChange}
         margin="dense"
         fullWidth
+        required
       />
       <TextField
         label="last name"
@@ -105,6 +106,7 @@ const EditBdayForm = (props) => {
         onChange={handleChange}
         margin="dense"
         fullWidth
+        required
       />
       <TextField
         label="birthdate"
@@ -114,6 +116,7 @@ const EditBdayForm = (props) => {
         onChange={handleChange}
         margin="dense"
         fullWidth
+        required
         slotProps={{ inputLabel: { shrink: true } }}
       />
       <TextField
