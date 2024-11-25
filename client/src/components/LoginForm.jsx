@@ -96,6 +96,8 @@ const LoginForm = (props) => {
 
       if (response.status === 403 || response.status === 422) {
         setMessageAPI(response.response.data.error);
+      } else if (response.status === 500) {
+        setMessageAPI(response.response.statusText);
       } else {
         props.setLoggedIn(true);
       }
@@ -127,7 +129,11 @@ const LoginForm = (props) => {
         password: password.value,
       });
 
-      if (response.status === 401 || response.status === 400) {
+      if (
+        response.status === 401 ||
+        response.status === 400 ||
+        response.status === 500
+      ) {
         setMessageAPI(response.response.statusText);
       } else {
         props.setLoggedIn(true);

@@ -12,20 +12,21 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.API_PORT || 8080;
 
 env.config({ path: "../.env" });
 
 //conditional statement to enable CORS based on the environment
-if (process.env.NODE_ENV === "development") {
-  app.use(
-    cors({
-      origin: "http://localhost:5173",
-      optionsSuccessStatus: 200,
-      credentials: true,
-    })
-  );
-}
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "development"
+        ? process.env.LOCAL_CLIENT_BASE_URL
+        : process.env.REMOTE_CLIENT_BASE_URL,
+    optionsSuccessStatus: 200,
+    credentials: true,
+  })
+);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(
@@ -189,7 +190,6 @@ app.get("/api/data", async (req, res) => {
       }
     } catch (err) {
       console.log(`ERROR: ${err.message}`);
-      res.status(500).end();
     }
   } else {
     res.status(401).json({ error: "Not authenticated." });
