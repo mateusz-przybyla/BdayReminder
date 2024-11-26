@@ -39,11 +39,16 @@ Steps to run the project locally:
 
 - use e.g. Visual Studio Code https://code.visualstudio.com/docs/setup/windows,
 - install Node.js https://nodejs.org/en on your PC,
-- clone the repository to the selected folder,
+- clone the repository:
+
+```bash
+  git clone https://github.com/mateusz-przybyla/bday-reminder.git
+```
+
 - open the bday-reminder app solution in Visual Studio Code or related,
 - create file named .env and fill it like .env.example file (or see below):
   ![](./readme/env.jpg)
-- to install required dependencies run command:
+- to install required dependencies run below script:
 
 ```bash
   npm install
@@ -52,7 +57,7 @@ Steps to run the project locally:
 - download the PostgreSQL Installer https://www.postgresql.org/download/windows/ and create a new pgAdmin account,
 - create a new database called e.g. "bday-reminder" in pgAdmin,
 - run the queries.sql code in pgAdmin Query Tool to create required tables,
-- run the project:
+- to run the project run below script:
 
 ```bash
   npm start
