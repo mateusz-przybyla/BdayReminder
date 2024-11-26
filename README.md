@@ -1,10 +1,8 @@
-# bday-reminder
+# Bday Reminder App
 
 Project idea:\
-Czy znarzyło Ci się zapomnieć o urodzinach Twojego najlepszego przyjaciela lub rodziny? Mi się zdarzyło, dlatego też postanowiłem napisać aplikację do zapisywania urodzin. Teraz wszystkie daty mam w jednym miejscu.
-
-Project description:\
-[in progress] A web application to store your birthday dates [React.js]
+Have you ever forgotten someone's birthday? It happened to me, therefore I decided to write an application to save birthdays.
+Now I have all the dates in one place :).
 
 ## Table of contents
 
@@ -18,15 +16,43 @@ Project description:\
 
 ## Overview
 
-[in progress]
+Project description:\
+An application requires authentication (email and password).
+A home page (available after successfull authentication) informs about today's Name Days and how many people celebrate their birthday today.
+Bday Reminder App allows to easily manage entries (birthdays) - all entries are displayed on profile page and sorted by month. On the same page can easily add, edit or delete existing birthdays.\
+Entries celebrating a birthday on the current day are highlighted in a yellow color.\
+At the end of the profile page is a bar chart showing the number of birthdays in a given month.\
+
+Technical information:\
+It's a Single Page Application using the Express/Node backend and React frontend.\
+
+An Axios HTTP client integrates a public API - in my case Name Day API. The app interact with the chosen API and fetch today's namedays.
+Moreover an Axios client integrates a private API (authentication and birthdays management).\
+
+User data are persist using a PostgreSQL database.
+An application used CRUD methods to manipulate data in the database and data validation applied on frontend and backend.
+Error handling - console log (for developers) and user-relevant errors displaying on the pages.
 
 ### How to start
 
-[in progress]
+Steps to run the project locally:
+
+- use e.g. Visual Studio Code https://code.visualstudio.com/docs/setup/windows,
+- install Node.js https://nodejs.org/en
+- clone the repository to the selected folder,
+- open the bday-reminder App solution in Visual Studio Code or related,
+- create file named .env and fill it like .env.example file (or see below):
+  ![](./readme/env.jpg)
+- to install required dependencies run command -> npm install,
+- download the PostgreSQL Installer https://www.postgresql.org/download/windows/ and create a new pgAdmin account,
+- create a new database called e.g. "bday_reminder" in pgAdmin,
+- run the queries.sql code in pgAdmin Query Tool to create required tables,
+- run the project -> npm start,
+- App is running on localhost, so open a web browser and run http://localhost:5173/
 
 ### Database schema
 
-![](./readme/***)
+![](./readme/database_schema.jpg)
 
 ### Screenshot
 
@@ -38,7 +64,7 @@ Project description:\
 
 ![](./readme/frontend_textfield_validation.jpg)
 
-- Home page with greeting, date, time, todays namedays and information about todays birthdays
+- Home page with greeting, date, time, today's namedays and information about today's birthdays
 
 ![](./readme/home_page.jpg)
 
@@ -50,14 +76,6 @@ Project description:\
 
 ![](./readme/highlighted_todays_birthday.jpg)
 
-- Collapsed add birthday form
-
-![](./readme/add_birthday_form_collapsed.jpg)
-
-- Expanded add birthday form
-
-![](./readme/add_birthday_form_expanded.jpg)
-
 - Birthday card actions
 
 ![](./readme/birthday_card_actions.jpg)
@@ -65,6 +83,14 @@ Project description:\
 - Edit birthday data modal
 
 ![](./readme/edit_birthday_card_modal.jpg)
+
+- Collapsed add birthday form
+
+![](./readme/add_birthday_form_collapsed.jpg)
+
+- Expanded add birthday form
+
+![](./readme/add_birthday_form_expanded.jpg)
 
 - Birthdays bar chart
 
@@ -99,6 +125,7 @@ Frontend:
 - HTML, CSS,
 - MUI X Components: bar chart,
 - Custom components,
+- React Router,
 - React Hooks: useEffect, useState, custom hooks,
 - Axios for making HTTP requests to the API and handle responses,
 - Mobile First Approach,
