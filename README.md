@@ -1,8 +1,8 @@
 # Bday Reminder App
 
-Project idea:\
-Have you ever forgotten someone's birthday? It happened to me, therefore I decided to write an application to save birthdays.
-Now I have all the dates in one place :).
+**Project idea:**\
+Have you ever forgotten someone's birthday? It happened to me, so I decided to write an application to save birthdays.
+Now I have all the dates in one place :)
 
 ## Table of contents
 
@@ -16,21 +16,21 @@ Now I have all the dates in one place :).
 
 ## Overview
 
-Project description:\
+**Project description:**\
 An application requires authentication (email and password).
 A home page (available after successfull authentication) informs about today's Name Days and how many people celebrate their birthday today.
-Bday Reminder App allows to easily manage entries (birthdays) - all entries are displayed on profile page and sorted by month. On the same page can easily add, edit or delete existing birthdays.\
-Entries celebrating a birthday on the current day are highlighted in a yellow color.\
-At the end of the profile page is a bar chart showing the number of birthdays in a given month.\
+Bday Reminder App allows to easily manage entries (birthdays) - all entries are displayed on profile page and sorted by month. On the same page can easily add, edit or delete existing birthdays.
+Entries celebrating a birthday on the current day are highlighted in a yellow color.
+At the end of the profile page is a bar chart showing the number of birthdays in a given month.
 
-Technical information:\
-It's a Single Page Application using the Express/Node backend and React frontend.\
+**Technical information:**\
+It's a Single Page Application using the Express/Node backend and React frontend.
 
-An Axios HTTP client integrates a public API - in my case Name Day API. The app interact with the chosen API and fetch today's namedays.
-Moreover an Axios client integrates a private API (authentication and birthdays management).\
+An Axios HTTP client integrates a public API - in my case Name Day API. The app interact with the chosen API and fetch today's namedays.\
+Moreover an Axios client integrates a private API (authentication and birthdays management).
 
-User data are persist using a PostgreSQL database.
-An application used CRUD methods to manipulate data in the database and data validation applied on frontend and backend.
+User data are persist using a PostgreSQL database.\
+An application used CRUD methods to manipulate data in the database and data validation applied on frontend and backend.\
 Error handling - console log (for developers) and user-relevant errors displaying on the pages.
 
 ### How to start
@@ -38,17 +38,27 @@ Error handling - console log (for developers) and user-relevant errors displayin
 Steps to run the project locally:
 
 - use e.g. Visual Studio Code https://code.visualstudio.com/docs/setup/windows,
-- install Node.js https://nodejs.org/en
+- install Node.js https://nodejs.org/en on your PC,
 - clone the repository to the selected folder,
-- open the bday-reminder App solution in Visual Studio Code or related,
+- open the bday-reminder app solution in Visual Studio Code or related,
 - create file named .env and fill it like .env.example file (or see below):
   ![](./readme/env.jpg)
-- to install required dependencies run command -> npm install,
+- to install required dependencies run command:
+
+```bash
+  npm install
+```
+
 - download the PostgreSQL Installer https://www.postgresql.org/download/windows/ and create a new pgAdmin account,
-- create a new database called e.g. "bday_reminder" in pgAdmin,
+- create a new database called e.g. "bday-reminder" in pgAdmin,
 - run the queries.sql code in pgAdmin Query Tool to create required tables,
-- run the project -> npm start,
-- App is running on localhost, so open a web browser and run http://localhost:5173/
+- run the project:
+
+```bash
+  npm start
+```
+
+- app is running on localhost, so open a web browser and run http://localhost:5173/
 
 ### Database schema
 
