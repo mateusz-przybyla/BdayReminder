@@ -123,7 +123,7 @@ Steps to run the project locally:
 
 ### Built with
 
-Backend - API:
+Backend - REST API:
 
 - Node.js project using Express.js,
 - 'pg' package for working with localhost PostgreSQL database,
