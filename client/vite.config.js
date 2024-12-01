@@ -8,15 +8,13 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     //envDir: "../",
     server: {
+      host: true,
       proxy: {
         "/api": {
-          target:
-            env.NODE_ENV === "production"
-              ? env.REMOTE_API_BASE_URL
-              : env.LOCAL_API_BASE_URL,
-          changeOrigin: true,
+          target: env.REMOTE_API_BASE_URL || env.LOCAL_API_BASE_URL,
         },
       },
+      port: 5173,
     },
   };
 });

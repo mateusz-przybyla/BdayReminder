@@ -16,17 +16,16 @@ const port = process.env.API_PORT || 8080;
 
 env.config({ path: "../.env" });
 
-//conditional statement to enable CORS based on the environment
-app.use(
-  cors({
-    origin:
-      process.env.NODE_ENV === "development"
-        ? process.env.LOCAL_CLIENT_BASE_URL
-        : process.env.REMOTE_CLIENT_BASE_URL,
-    optionsSuccessStatus: 200,
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: [
+    process.env.REMOTE_CLIENT_BASE_URL,
+    process.env.LOCAL_CLIENT_BASE_URL,
+  ],
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(
