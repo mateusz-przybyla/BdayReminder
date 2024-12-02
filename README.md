@@ -30,7 +30,7 @@ An Axios HTTP client integrates a public API - in my case Name Day API. The app 
 Moreover an Axios client integrates a private API (authentication and birthdays management).
 
 User data are persist using a PostgreSQL database.\
-An application used CRUD methods to manipulate data in the database and data validation applied on frontend and backend.\
+An application using CRUD methods to manipulate data in the database. User data are validated at the browser level (frontend) and server level (backend).\
 Error handling - console log (for developers) and user-relevant errors displaying on the pages.
 
 ### How to start
@@ -48,16 +48,16 @@ Steps to run the project locally:
 - open the bday-reminder app solution in Visual Studio Code or related,
 - create file named .env and fill it like .env.example file (or see below):
   ![](./readme/env.jpg)
-- to install required dependencies run below script:
+- to install required dependencies run the following script:
 
 ```bash
   npm install
 ```
 
 - download the PostgreSQL Installer https://www.postgresql.org/download/windows/ and create a new pgAdmin account,
-- create a new database called e.g. "bday-reminder" in pgAdmin,
+- create a new database called e.g. "bday_reminder" in pgAdmin,
 - run the queries.sql code in pgAdmin Query Tool to create required tables,
-- to run the project run below script:
+- to run the project run the following script:
 
 ```bash
   npm start
