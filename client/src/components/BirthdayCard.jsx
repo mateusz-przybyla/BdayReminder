@@ -31,8 +31,12 @@ const BirthdayCard = (props) => {
     props.onEdit(updatedBirthday);
   };
 
-  const bdayDay = parseInt(props.birthday.birthdate.substring(8, 10));
-  const bdayMonth = parseInt(props.birthday.birthdate.substring(5, 7));
+  const bdayDay = (
+    "0" + parseInt(props.birthday.birthdate.substring(8, 10))
+  ).slice(-2);
+  const bdayMonth = (
+    "0" + parseInt(props.birthday.birthdate.substring(5, 7))
+  ).slice(-2);
   const bdayYear = parseInt(props.birthday.birthdate.substring(0, 4));
 
   return (
