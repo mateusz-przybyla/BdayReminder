@@ -203,7 +203,7 @@ const LoginForm = (props) => {
         onChange={handlePasswordChange}
         error={password.error}
         helperText={
-          password.error && "Password must be at least 3 characters long."
+          password.error && "Password must be at least 6 characters long."
         }
         margin="dense"
         fullWidth

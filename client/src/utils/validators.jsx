@@ -7,7 +7,7 @@ const emailValidator = (value) => {
 };
 
 const passwordValidator = (value) => {
-  if (value.length < 3) return true;
+  if (value.length < 6) return true;
 
   return false;
 };
