@@ -47,9 +47,11 @@ const EditBdayForm = (props) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     maxWidth: 400,
+    minWidth: 320,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
+    px: 2,
+    py: 4,
     borderRadius: "5px",
   };
 

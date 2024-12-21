@@ -26,13 +26,11 @@ const EditModal = (props) => {
         <EditIcon />
       </Fab>
       <Modal open={open} onClose={handleClose}>
-        <div>
-          <EditBdayForm
-            birthday={props.birthday}
-            onEdit={sumbitUpdatedBirthday}
-            handleClose={handleClose}
-          />
-        </div>
+        <EditBdayForm
+          birthday={props.birthday}
+          onEdit={sumbitUpdatedBirthday}
+          handleClose={handleClose}
+        />
       </Modal>
     </div>
   );
